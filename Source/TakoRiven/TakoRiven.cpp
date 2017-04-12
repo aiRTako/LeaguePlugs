@@ -72,8 +72,11 @@ IMenuOption* calculatePing;
 IMenu* drawMenu;
 
 IUnit* Me;
-IUnit* myTarget = nullptr;
-IUnit* forcuTarget = nullptr;
+
+IInventoryItem* Tiamat;
+IInventoryItem* Titanic;
+IInventoryItem* Ravenous;
+IInventoryItem* Youmuu;
 
 int qStack = 0;
 int lastQTime = 0;
@@ -119,6 +122,11 @@ void InitSpells()
 	{
 		Ignite = GPluginSDK->CreateSpell(Me->GetSpellSlot("SummonerDot"), 600.0f);
 	}
+
+	Youmuu = GPluginSDK->CreateItemForId(3142, 0.0f);
+	Tiamat = GPluginSDK->CreateItemForId(3077, 400.0f);
+	Titanic = GPluginSDK->CreateItemForId(3748, 400.0f);
+	Ravenous = GPluginSDK->CreateItemForId(3074, 400.0f);
 }
 
 void InitMenu()
@@ -205,7 +213,7 @@ void Q1Q2Cancel()
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone)
+	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
 	{
 		int time = 291;
 		int ping = GGame->Latency();
@@ -218,8 +226,8 @@ void Q1Q2Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-
-					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+				
+					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 					{
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
@@ -235,8 +243,8 @@ void Q1Q2Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-
-					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+				
+					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 					{
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
@@ -253,8 +261,8 @@ void Q1Q2Cancel()
 			{
 				GOrbwalking->ResetAA();
 				GGame->Taunt(kDance);
-
-				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+			
+				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 				{
 					GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 				}
@@ -274,7 +282,7 @@ void Q3Cancel()
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone)
+	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
 	{
 		int time = 391;
 		int ping = GGame->Latency();
@@ -287,8 +295,8 @@ void Q3Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-
-					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+				
+					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 					{
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
@@ -304,8 +312,8 @@ void Q3Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-
-					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+	
+					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 					{
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
@@ -322,8 +330,8 @@ void Q3Cancel()
 			{
 				GOrbwalking->ResetAA();
 				GGame->Taunt(kDance);
-
-				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+			
+				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 				{
 					GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 				}
@@ -343,7 +351,7 @@ void WCancel()
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone)
+	 if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
 	{
 		int time = 50;
 		int ping = GGame->Latency();
@@ -385,7 +393,7 @@ void R1Cancel()
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone)
+	 if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
 	{
 		int time = 50;
 		int ping = GGame->Latency();
@@ -398,8 +406,8 @@ void R1Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-
-					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+				
+					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 					{
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
@@ -415,8 +423,8 @@ void R1Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-
-					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+				
+					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 					{
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
@@ -433,8 +441,8 @@ void R1Cancel()
 			{
 				GOrbwalking->ResetAA();
 				GGame->Taunt(kDance);
-
-				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+			
+				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 				{
 					GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 				}
@@ -454,7 +462,7 @@ void R2Cancel()
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone)
+	 if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
 	{
 		int time = 180;
 		int ping = GGame->Latency();
@@ -467,8 +475,8 @@ void R2Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-
-					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+		
+					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 					{
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
@@ -484,8 +492,8 @@ void R2Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-
-					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+				
+					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 					{
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
@@ -503,7 +511,7 @@ void R2Cancel()
 				GOrbwalking->ResetAA();
 				GGame->Taunt(kDance);
 
-				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead())
+				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() && GOrbwalking->GetLastTarget()->IsEnemy(Me) && GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 				{
 					GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 				}
@@ -528,17 +536,7 @@ bool haveDot()
 
 bool isRActive()
 {
-	return strcmp(GEntityList->Player()->GetSpellBook()->GetName(kSlotR), "RivenIzunaBlade") == 0;
-}
-
-float GetIgniteDMG(IUnit* target)
-{
-	if (target == nullptr || target->IsDead() || !target->IsHero())
-	{
-		return 0;
-	}
-
-	return 50 + 20 * GEntityList->Player()->GetLevel() - target->HPRegenRate() / 5 * 3;
+	return Contains(GEntityList->Player()->GetSpellBook()->GetName(kSlotR), "RivenIzunaBlade");
 }
 
 double GetPassive()
@@ -573,52 +571,7 @@ double GetPassive()
 		return 0.2;
 }
 
-float GetQDMG(IUnit* target)
-{
-	if (target->IsDead() ||
-		GEntityList->Player()->GetSpellBook()->GetLevel(kSlotQ) == 0 || 
-		!(Q->IsReady() || Me->HasBuff("RivenTriCleave")))
-	{
-		return 0;
-	}
-
-	auto qhan = 3 - qStack;
-
-	return (float)(GDamage->GetSpellDamage(Me, target, kSlotQ) * qhan +
-		GDamage->GetAutoAttackDamage(GEntityList->Player(), target, false) * qhan * (1 + GetPassive()));
-}
-
-float GetWDMG(IUnit* target)
-{
-	if (target->IsDead() || GEntityList->Player()->GetSpellBook()->GetLevel(kSlotW) == 0 || !W->IsReady())
-	{
-		return 0;
-	}
-
-	return (float)GDamage->GetSpellDamage(Me, target, kSlotW);
-}
-
-float GetEDMG(IUnit* target)
-{
-	if (target->IsDead() || GEntityList->Player()->GetSpellBook()->GetLevel(kSlotE) == 0 || !E->IsReady())
-	{
-		return 0;
-	}
-
-	return (float)GDamage->GetAutoAttackDamage(GEntityList->Player(), target, true);
-}
-
-float GetRDMG(IUnit* target)
-{
-	if (target->IsDead() || GEntityList->Player()->GetSpellBook()->GetLevel(kSlotR) == 0 || !R->IsReady())
-	{
-		return 0;
-	}
-
-	return (float)GDamage->GetSpellDamage(Me, target, kSlotR);
-}
-
-float GetComboDMG(IUnit* target)
+float GetComboDMG(IUnit* target, bool includeR = true)
 {
 	if (target->IsDead() || target->IsInvulnerable())
 	{
@@ -627,18 +580,40 @@ float GetComboDMG(IUnit* target)
 
 	double DMG = 0;
 
-	DMG += GetQDMG(target);
-	DMG += GetWDMG(target);
-	DMG += GetEDMG(target);
-	DMG += GetRDMG(target);
-	DMG += GetIgniteDMG(target);
+	if (Q->IsReady() || Me->HasBuff("RivenTriCleave"))
+	{
+		auto qhan = 3 - qStack;
+
+		DMG += (GDamage->GetSpellDamage(Me, target, kSlotQ) * qhan +
+			GDamage->GetAutoAttackDamage(GEntityList->Player(), target, false) * qhan * (1 + GetPassive()));
+	}
+
+	if (W->IsReady())
+	{
+		DMG += GDamage->GetSpellDamage(Me, target, kSlotW);
+	}
+
+	if (E->IsReady())
+	{
+		DMG += GDamage->GetAutoAttackDamage(GEntityList->Player(), target, true);
+	}
+
+	if (R->IsReady() && includeR)
+	{
+		DMG += GDamage->GetSpellDamage(Me, target, kSlotR);
+	}
+
+	if (haveDot() && Ignite->IsReady())
+	{
+		DMG += GDamage->GetSummonerSpellDamage(Me, target, kSummonerSpellIgnite);
+	}
 
 	return (float)DMG;
 }
 
 bool HaveShield(IUnit* target)
 {
-	if (target == nullptr)
+	if (target == nullptr || target->IsDead())
 	{
 		return true;
 	}
@@ -671,139 +646,153 @@ bool HaveShield(IUnit* target)
 	return false;
 }
 
-bool UseYoumuu()
+void UseYoumuu()
 {
-	return GPluginSDK->CreateItemForId(3142, 0)->IsOwned() &&
-		GPluginSDK->CreateItemForId(3142, 0)->IsReady() &&
-		GPluginSDK->CreateItemForId(3142, 0)->CastOnPlayer();
+	if (Youmuu->IsOwned() && Youmuu->IsReady())
+	{
+		Youmuu->CastOnPlayer();
+	}
 }
 
-bool UseItem()
+void UseItem()
 {
-	if (GPluginSDK->CreateItemForId(3077, 400)->IsOwned() && GPluginSDK->CreateItemForId(3077, 400)->IsReady())
+	if (Tiamat->IsOwned() && Tiamat->IsReady())
 	{
-		return GPluginSDK->CreateItemForId(3077, 400)->CastOnPlayer();
+		Tiamat->CastOnPlayer();
 	}
-
-	if (GPluginSDK->CreateItemForId(3748, 400)->IsOwned() && GPluginSDK->CreateItemForId(3748, 400)->IsReady())
+	else if (Titanic->IsOwned() && Titanic->IsReady())
 	{
-		return GPluginSDK->CreateItemForId(3748, 400)->CastOnPlayer();
+		Titanic->CastOnPlayer();
 	}
-
-	if (GPluginSDK->CreateItemForId(3074, 400)->IsOwned() && GPluginSDK->CreateItemForId(3074, 400)->IsReady())
+	else if (Ravenous->IsOwned() && Ravenous->IsReady())
 	{
-		return GPluginSDK->CreateItemForId(3074, 400)->CastOnPlayer();
+		Ravenous->CastOnPlayer();
 	}
-
-	return false;
 }
 
-bool CastQ(IUnit* target)
+void CastQ(IUnit* target)
 {
-	if (target == nullptr ||
-		target->IsDead() ||
-		GEntityList->Player()->GetSpellBook()->GetLevel(kSlotQ) == 0 ||
-		!Q->IsReady())
+	if (target == nullptr || target->IsDead() || !Q->IsReady())
 	{
-		return false;
+		return;
 	}
 
 	if (qMode->GetInteger() == 0)
 	{
-		return Q->CastOnPosition(target->GetPosition());
+		Q->CastOnPosition(target->GetPosition());
 	}
 	else
-		return Q->CastOnPosition(GGame->CursorPosition());
+		Q->CastOnPosition(GGame->CursorPosition());
 }
 
-bool R1Logic(IUnit* target)
+void R1Logic(IUnit* target)
 {
-	if (target == nullptr ||
-		!target->IsValidTarget(GEntityList->Player(), 500.0f) ||
-		isRActive() ||
-		!comboR1->Enabled())
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+		return;
+
+	if (!target->IsValidTarget(GEntityList->Player(), 500.0f) || isRActive() || !comboR1->Enabled())
 	{
-		return false;
+		return;
 	}
 
 	if (comboR1Ex->Enabled())
 	{
-		if (target->GetHealth() <= (GetQDMG(target) + GetWDMG(target) + GetEDMG(target) + GetIgniteDMG(target) + GDamage->GetAutoAttackDamage(Me, target, true)))
+		if (target->GetHealth() <= (GetComboDMG(target, false) + GDamage->GetAutoAttackDamage(Me, target, true)))
 		{
-			return false;
+			return;
 		}
 	}
-
-	return R->CastOnPlayer();
+	
+	R->CastOnPlayer();
 }
 
-bool R2Logic(IUnit* target)
+void R2Logic(IUnit* target)
 {
-	if (target == nullptr ||
-		!target->IsValidTarget(GEntityList->Player(), R2->Range()) ||
-		!isRActive())
-	{
-		return false;
-	}
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+		return;
+
+	if (!target->IsValidTarget(GEntityList->Player(), R2->Range()) || !isRActive())
+		return;
 
 	switch (comboR2->GetInteger())
 	{
 	case 0:
 		if (target->HealthPercent() < 20 ||
-			(target->GetHealth() > GetRDMG(target) + GDamage->GetAutoAttackDamage(GEntityList->Player(), target, true) * 2 &&
+			(target->GetHealth() > GDamage->GetSpellDamage(Me, target, kSlotR) + GDamage->GetAutoAttackDamage(GEntityList->Player(), target, true) * 2 &&
 				target->HealthPercent() < 40) ||
-				(target->GetHealth() <= GetRDMG(target)) ||
+				(target->GetHealth() <= GDamage->GetSpellDamage(Me, target, kSlotR)) ||
 			(target->GetHealth() <= GetComboDMG(target)))
 		{
-			return R2->CastOnPosition(target->GetPosition());
+			AdvPredictionOutput pred;
+			R2->RunPrediction(target, true, kCollidesWithYasuoWall, &pred);
+
+			if (pred.HitChance >= kHitChanceHigh)
+			{
+				if (R2->CastOnPosition(pred.CastPosition))
+				{
+					if (GOrbwalking->GetOrbwalkingMode() == kModeCombo && Q->IsReady())
+					{
+						Q->CastOnPosition(target->GetPosition());
+					}
+				}
+			}
 		}
 		break;
 	case 1:
-		if (GetRDMG(target) > target->GetHealth() && DistanceToPlayer(target) < 600)
-		{
-			return R2->CastOnPosition(target->GetPosition());
-		}
-
-		break;
-	case 2:
 		if (DistanceToPlayer(target) < 600)
 		{
-			return R2->CastOnPosition(target->GetPosition());
+			AdvPredictionOutput pred;
+			R2->RunPrediction(target, true, kCollidesWithYasuoWall, &pred);
+
+			if (pred.HitChance >= kHitChanceHigh)
+			{
+				if (R2->CastOnPosition(pred.CastPosition))
+				{
+					if (GOrbwalking->GetOrbwalkingMode() == kModeCombo && Q->IsReady())
+					{
+						Q->CastOnPosition(target->GetPosition());
+					}
+				}
+			}
+		}
+		break;
+	case 2:
+		if (GDamage->GetSpellDamage(Me, target, kSlotR) > target->GetHealth() && DistanceToPlayer(target) < 600)
+		{
+			AdvPredictionOutput pred;
+			R2->RunPrediction(target, true, kCollidesWithYasuoWall, &pred);
+
+			if (pred.HitChance >= kHitChanceHigh)
+			{
+				if (R2->CastOnPosition(pred.CastPosition))
+				{
+					if (GOrbwalking->GetOrbwalkingMode() == kModeCombo && Q->IsReady())
+					{
+						Q->CastOnPosition(target->GetPosition());
+					}
+				}
+			}
 		}
 		break;
 	}
-
-	return false;
 }
 
 void Combo()
 {
-	IUnit* target = nullptr;
+	auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, 900.0f);
 
-	if (myTarget != nullptr && myTarget->IsValidTarget(Me, 900.0f))
-	{
-		target = myTarget;
-	}
-	else
-	{
-		target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, 900.0f);
-	}
-
-	if (target == nullptr || target->IsDead() || target->IsInvulnerable())
-	{
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
 		return;
-	}
 
 	if (comboDot->Enabled() && 
 		haveDot() &&
 		Ignite->IsReady() &&
 		target->IsValidTarget(Me, 600.0f) &&
-		(target->GetHealth() < GetIgniteDMG(target) || 
+		(target->GetHealth() < GDamage->GetSummonerSpellDamage(Me, target, kSummonerSpellIgnite) || 
 		(target->GetHealth() <= GetComboDMG(target) && 
-			target->IsValidTarget(Me, 400.0f))) &&
-		Ignite->CastOnUnit(target))
+			target->IsValidTarget(Me, 400.0f))))
 	{
-		return;
+		Ignite->CastOnUnit(target);
 	}
 
 	if (comboItem->Enabled() && target->IsValidTarget(Me, 550.0f))
@@ -815,26 +804,24 @@ void Combo()
 		R->IsReady() &&
 		!isRActive() &&
 		target->GetHealth() <= GetComboDMG(target) * 1.20 && 
-		target->IsValidTarget(Me, 600.0f) &&
-		R1Logic(target))
+		target->IsValidTarget(Me, 600.0f))
 	{
-		return;
+		R1Logic(target);
 	}
 
 	if (comboR2->GetInteger() != 3 && 
 		R->IsReady() &&
-		isRActive() && 
-		R2Logic(target))
+		isRActive())
 	{
-		return;
+		R2Logic(target);
 	}
 
 	if (comboQ->Enabled() && 
 		Q->IsReady() && 
-		GGame->CurrentTick() - lastQTime > 3600 &&
+		GGame->CurrentTick() - lastQTime >= 1200 &&
 		!Me->IsWindingUp() && 
-		target->IsValidTarget(Me, 400.0f) &&
-		DistanceToPlayer(target) > (Me->AttackRange() + Me->BoundingRadius() + 100.0f))
+		target->IsValidTarget(Me, 420.0f) &&
+		DistanceToPlayer(target) > (Me->AttackRange() + Me->BoundingRadius() + 100.0f + target->BoundingRadius()))
 	{
 		Vec3 predPos = Vec3(0, 0, 0);
 		GPrediction->GetFutureUnitPosition(target, Q->GetDelay(), true, predPos);
@@ -843,10 +830,8 @@ void Combo()
 			(DistanceToPlayer(predPos) <= DistanceToPlayer(target) || 
 			(Distance(target, predPos) <= DistanceToPlayer(target))))
 		{
-			if (Q->CastOnPosition(target->GetPosition()))
-			{
-				return;
-			}
+			Q->CastOnPosition(target->GetPosition());
+			return;
 		}
 	}
 
@@ -855,60 +840,53 @@ void Combo()
 		target->IsValidTarget(Me, 600.0f) && 
 		DistanceToPlayer(target) > (Me->AttackRange() + Me->BoundingRadius() + 80.0f))
 	{
-		if (E->CastOnPosition(target->GetPosition()))
-		{
-			return;
-		}
+		E->CastOnPosition(target->GetPosition());
+		return;
 	}
 
 	if (comboWLogic->Enabled() && 
 		W->IsReady() && 
 		target->IsValidTarget(Me, W->GetSpellRange()))
 	{
-		if (qStack == 0 && W->CastOnPlayer())
+		if (qStack == 0)
 		{
-			return;
+			W->CastOnPlayer();
 		}
 
-		if (Q->IsReady() && qStack > 1 && W->CastOnPlayer())
+		if (Q->IsReady() && qStack > 1)
 		{
-			return;
+			W->CastOnPlayer();
 		}
 
-		if (Me->HasBuff("RivenFeint") && W->CastOnPlayer())
+		if (Me->HasBuff("RivenFeint"))
 		{
-			return;
+			W->CastOnPlayer();
 		}
 
-		if (!target->IsFacing(Me) && W->CastOnPlayer())
+		if (!target->IsFacing(Me))
 		{
-			return;
+			W->CastOnPlayer();
 		}
 	}
 }
 
 void ShyBurst()
 {
-	if (forcuTarget == nullptr)
-	{
+	auto target = GTargetSelector->GetFocusedTarget();
+
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
 		return;
+
+	if (burstDot &&  haveDot() && Ignite->IsReady() && target->IsValidTarget(Me, 600.0f))
+	{
+		Ignite->CastOnUnit(target);
 	}
 
-	if (burstDot && 
-		haveDot() &&
-		Ignite->IsReady())
+	if (E->IsReady() && R->IsReady() &&  W->IsReady() &&  !isRActive())
 	{
-		Ignite->CastOnUnit(forcuTarget);
-	}
-
-	if (E->IsReady() && 
-		R->IsReady() && 
-		W->IsReady() && 
-		!isRActive())
-	{
-		if (forcuTarget->IsValidTarget(Me, E->Range() + Me->BoundingRadius() - 30.0f))
+		if (target->IsValidTarget(Me, E->Range() + Me->BoundingRadius() - 30.0f))
 		{
-			E->CastOnPosition(forcuTarget->GetPosition());
+			E->CastOnPosition(target->GetPosition());
 			GPluginSDK->DelayFunctionCall(10, []()
 			{
 				R->CastOnPlayer();
@@ -917,16 +895,24 @@ void ShyBurst()
 			{
 				W->CastOnPlayer();
 			});
+			GPluginSDK->DelayFunctionCall(70, []()
+			{
+				auto target1 = GTargetSelector->GetFocusedTarget();
+				Q->CastOnPosition(target1->GetPosition());
+			});
+			GPluginSDK->DelayFunctionCall(80, []()
+			{
+				auto target1 = GTargetSelector->GetFocusedTarget();
+				R2->CastOnPosition(target1->GetPosition());
+			});
 			return;
 		}
 
-		if (burstFlash &&
-			haveFlash() &&
-			Flash->IsReady())
+		if (burstFlash && haveFlash() && Flash->IsReady())
 		{
-			if (forcuTarget->IsValidTarget(Me, E->Range() + Me->BoundingRadius() + 425.0f - 50.0f))
+			if (target->IsValidTarget(Me, E->Range() + Me->BoundingRadius() + 425.0f - 50.0f))
 			{
-				E->CastOnPosition(forcuTarget->GetPosition());
+				E->CastOnPosition(target->GetPosition());
 				GPluginSDK->DelayFunctionCall(10, []()
 				{
 					R->CastOnPlayer();
@@ -937,7 +923,18 @@ void ShyBurst()
 				});
 				GPluginSDK->DelayFunctionCall(61, []()
 				{
-					Flash->CastOnPosition(forcuTarget->GetPosition());
+					auto target1 = GTargetSelector->GetFocusedTarget();
+					Flash->CastOnPosition(target1->GetPosition());
+				});
+				GPluginSDK->DelayFunctionCall(70, []()
+				{
+					auto target1 = GTargetSelector->GetFocusedTarget();
+					Q->CastOnPosition(target1->GetPosition());
+				});
+				GPluginSDK->DelayFunctionCall(80, []()
+				{
+					auto target1 = GTargetSelector->GetFocusedTarget();
+					R2->CastOnPosition(target1->GetPosition());
 				});
 				return;
 			}
@@ -945,8 +942,7 @@ void ShyBurst()
 	}
 	else
 	{
-		if (W->IsReady() && 
-			forcuTarget->IsValidTarget(Me, W->GetSpellRange()))
+		if (W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()))
 		{
 			W->CastOnPlayer();
 		}
@@ -955,41 +951,36 @@ void ShyBurst()
 
 void EQFlashBurst()
 {
-	if (forcuTarget == nullptr)
-	{
+	auto target = GTargetSelector->GetFocusedTarget();
+
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
 		return;
-	}
 
-	if (burstDot &&
-		haveDot() &&
-		Ignite->IsReady())
+	if (burstDot &&  haveDot() && Ignite->IsReady() && target->IsValidTarget(Me, 600.0f))
 	{
-		Ignite->CastOnUnit(forcuTarget);
+		Ignite->CastOnUnit(target);
 	}
-
 	if (burstFlash &&
 		haveFlash() &&
 		Flash->IsReady())
 	{
-		if (forcuTarget->IsValidTarget(Me, E->Range() + 425.0f + Q->Range() - 150.0f) &&
-			qStack == 2 &&
-			E->IsReady() && 
-			R->IsReady() &&
-			!isRActive() &&
-			W->IsReady())
+		if (target->IsValidTarget(Me, E->Range() + 425.0f + Q->Range() - 150.0f) &&
+			qStack == 2 && E->IsReady() &&  R->IsReady() && !isRActive() && W->IsReady())
 		{
-			E->CastOnPosition(forcuTarget->GetPosition());
+			E->CastOnPosition(target->GetPosition());
 			GPluginSDK->DelayFunctionCall(10, []()
 			{
 				R->CastOnPlayer();
 			});
 			GPluginSDK->DelayFunctionCall(50, []()
 			{
-				Flash->CastOnPosition(forcuTarget->GetPosition());
+				auto target1 = GTargetSelector->GetFocusedTarget();
+				Flash->CastOnPosition(target1->GetPosition());
 			});
 			GPluginSDK->DelayFunctionCall(61, []()
 			{
-				Q->CastOnPosition(forcuTarget->GetPosition());
+				auto target1 = GTargetSelector->GetFocusedTarget();
+				Q->CastOnPosition(target1->GetPosition());
 			});
 			GPluginSDK->DelayFunctionCall(62, []()
 			{
@@ -1001,14 +992,20 @@ void EQFlashBurst()
 			});
 			GPluginSDK->DelayFunctionCall(71, []()
 			{
-				R2->CastOnPosition(forcuTarget->GetPosition());
+				auto target1 = GTargetSelector->GetFocusedTarget();
+				if (R2->CastOnPosition(target1->GetPosition()))
+				{
+					if (GOrbwalking->GetOrbwalkingMode() == kModeCombo && Q->IsReady())
+					{
+						Q->CastOnPosition(target1->GetPosition());
+					}
+				}
 			});
 			return;
 		}
 		else
 		{
-			if (qStack < 2 && 
-				GGame->CurrentTick() - lastQTime >= 850)
+			if (qStack < 2 && GGame->CurrentTick() - lastQTime >= 850)
 			{
 				Q->CastOnPosition(GGame->CursorPosition());
 			}
@@ -1016,21 +1013,18 @@ void EQFlashBurst()
 	}
 	else
 	{
-		if (forcuTarget->IsValidTarget(Me, E->Radius() + Q->Range() - 150.0f) &&
-			qStack == 2 &&
-			E->IsReady() &&
-			R->IsReady() && 
-			!isRActive() &&
-			W->IsReady())
+		if (target->IsValidTarget(Me, E->Radius() + Q->Range() - 150.0f) &&
+			qStack == 2 && E->IsReady() && R->IsReady() &&  !isRActive() && W->IsReady())
 		{
-			E->CastOnPosition(forcuTarget->GetPosition());		
+			E->CastOnPosition(target->GetPosition());
 			GPluginSDK->DelayFunctionCall(10, []()
 			{
 				R->CastOnPlayer();
 			});
 			GPluginSDK->DelayFunctionCall(50, []()
-			{
-				Q->CastOnPosition(forcuTarget->GetPosition());
+			{		
+				auto target1 = GTargetSelector->GetFocusedTarget();
+				Q->CastOnPosition(target1->GetPosition());
 			});
 			GPluginSDK->DelayFunctionCall(61, []()
 			{
@@ -1042,14 +1036,20 @@ void EQFlashBurst()
 			});
 			GPluginSDK->DelayFunctionCall(70, []()
 			{
-				R2->CastOnPosition(forcuTarget->GetPosition());
+				auto target1 = GTargetSelector->GetFocusedTarget();
+				if (R2->CastOnPosition(target1->GetPosition()))
+				{
+					if (GOrbwalking->GetOrbwalkingMode() == kModeCombo && Q->IsReady())
+					{
+						Q->CastOnPosition(target1->GetPosition());
+					}
+				}
 			});
 			return;
 		}
-		else if (forcuTarget->IsValidTarget(Me, E->Range() + Q->Range() + Q->Range() + Q->Range()))
+		else if (target->IsValidTarget(Me, E->Range() + Q->Range() + Q->Range() + Q->Range()))
 		{
-			if (qStack < 2 && 
-				GGame->CurrentTick() - lastQTime >= 850)
+			if (qStack < 2 && GGame->CurrentTick() - lastQTime >= 850)
 			{
 				Q->CastOnPosition(GGame->CursorPosition());
 			}
@@ -1059,9 +1059,24 @@ void EQFlashBurst()
 
 void Burst()
 {
-	GOrbwalking->Orbwalk(forcuTarget, GGame->CursorPosition());
+	auto target = GTargetSelector->GetFocusedTarget();
 
-	if (forcuTarget != nullptr && forcuTarget->IsValidTarget(Me, 1200.0f))
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+	{
+		GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
+		return;
+	}
+
+	if (target->IsValidTarget(Me, Me->GetRealAutoAttackRange(target) + target->BoundingRadius()))
+	{
+		GOrbwalking->Orbwalk(target, GGame->CursorPosition());
+	}
+	else
+	{
+		GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
+	}
+
+	if (target->IsValidTarget(Me, 1200.0f))
 	{
 		if (burstMode->GetInteger() == 0)
 		{
@@ -1078,9 +1093,9 @@ void Harass()
 {
 	IUnit* target = nullptr;
 
-	if (myTarget != nullptr && myTarget->IsValidTarget(Me, E->Range() + Me->BoundingRadius()))
+	if (GTargetSelector->GetFocusedTarget() != nullptr && GTargetSelector->GetFocusedTarget()->IsValidTarget(Me, E->Range() + Me->BoundingRadius()))
 	{
-		target = myTarget;
+		target = GTargetSelector->GetFocusedTarget();
 	}
 	else
 	{
@@ -1103,11 +1118,11 @@ void Harass()
 
 		if (Q->IsReady() && harassQ->Enabled() && qStack == 2)
 		{
-			if (myTarget != nullptr)
+			if (GTargetSelector->GetFocusedTarget() != nullptr)
 			{
 				GPluginSDK->DelayFunctionCall(100, []()
 				{
-					Q->CastOnPosition(Me->GetPosition().Extend(Me->GetPosition() + (Me->GetPosition() - myTarget->GetPosition()).VectorNormalize() * E->Range(), Q->Range()));
+					Q->CastOnPosition(Me->GetPosition().Extend(Me->GetPosition() + (Me->GetPosition() - GTargetSelector->GetFocusedTarget()->GetPosition()).VectorNormalize() * E->Range(), Q->Range()));
 				});
 			}
 			else
@@ -1206,7 +1221,7 @@ void JungleClear()
 		{
 			for (auto mob : GEntityList->GetAllMinions(false, false, true))
 			{
-				if (mob != nullptr && mob->IsValidTarget())
+				if (mob != nullptr && mob->IsValidTarget(Me, 400.0f))
 				{
 					if ((!Q->IsReady() && !W->IsReady()) || DistanceToPlayer(mob) > 250)
 					{
@@ -1240,107 +1255,89 @@ void Flee()
 	}
 }
 
-void AfterCombo(IUnit* tar)
+void AfterCombo(IUnit* target)
 {
-	IUnit* target = nullptr;
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+		return;
 
-	if (myTarget->IsValidTarget())
+	if (comboItem->Enabled())
 	{
-		target = myTarget;
-	}
-	else if (tar->IsHero() && tar->IsEnemy(Me))
-	{
-		target = tar;
+		UseItem();
 	}
 
-	if (target != nullptr && target->IsValidTarget(Me, 400.0f))
+	if (comboR2->GetInteger() != 3 && R->IsReady() && isRActive() && qStack == 2 && Q->IsReady())
 	{
-		if (comboItem->Enabled())
-		{
-			UseItem();
-		}
-
-		if (comboR2->GetInteger() != 3 && R->IsReady() && isRActive() && qStack == 2 && Q->IsReady() && R2Logic(target))
-		{
-			return;
-		}
-
-		if (target->IsValidTarget(Me, 450.0f) && CastQ(target))
-		{
-			return;
-		}
-
-		if (comboW->Enabled() && W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()) && !HaveShield(target) && W->CastOnPlayer())
-		{
-			return;
-		}
-
-		if (comboE->Enabled() && !Q->IsReady() && !W->IsReady() && E->IsReady() && target->IsValidTarget(Me, 400.0f) && E->CastOnPosition(target->GetPosition()))
-		{
-			return;
-		}
-
-		if (comboR1->Enabled() && R->IsReady() && !isRActive())
-		{
-			R1Logic(target);
-		}
+		R2Logic(target);
 	}
-
+	else if (target->IsValidTarget(Me, 450.0f))
+	{
+		CastQ(target);
+	}
+	else if (comboW->Enabled() && W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()) && !HaveShield(target))
+	{
+		W->CastOnPlayer();
+	}
+	else if (comboE->Enabled() && !Q->IsReady() && !W->IsReady() && E->IsReady() && target->IsValidTarget(Me, 400.0f))
+	{
+		E->CastOnPosition(target->GetPosition());
+	}
+	else if (comboR1->Enabled() && R->IsReady() && !isRActive())
+	{
+		R1Logic(target);
+	}
 }
 
 void AfterBurst()
 {
-	if (forcuTarget != nullptr && forcuTarget->IsValidTarget())
+	IUnit* target = GTargetSelector->GetFocusedTarget();
+
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+		return;
+
+	UseItem();
+
+	if (R->IsReady() && isRActive())
 	{
-		UseItem();
-
-		if (R->IsReady() && isRActive())
+		if (R2->CastOnPosition(target->GetPosition()))
 		{
-			R2->CastOnPosition(forcuTarget->GetPosition());
+			if (Q->IsReady())
+			{
+				Q->CastOnPosition(target->GetPosition());
+			}
 		}
+	}
 
-		CastQ(forcuTarget);
+	CastQ(target);
 
-		if (W->IsReady() && forcuTarget->IsValidTarget(Me, W->GetSpellRange()) && W->CastOnPlayer())
-		{
-			return;
-		}
+	if (W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()))
+	{
+		W->CastOnPlayer();
+		return;
+	}
 
-		if (E->IsReady())
-		{
-			E->CastOnPosition(forcuTarget->GetPosition());
-		}
+	if (E->IsReady())
+	{
+		E->CastOnPosition(target->GetPosition());
 	}
 }
 
-void AfterHarass(IUnit* tar)
+void AfterHarass(IUnit* target)
 {
-	IUnit* target = nullptr;
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+		return;
 
-	if (myTarget->IsValidTarget())
+	if (harassQ->Enabled() && Q->IsReady())
 	{
-		target = myTarget;
-	}
-	else if (tar->IsHero() && tar->IsEnemy(Me))
-	{
-		target = tar;
-	}
-
-	if (target != nullptr && target->IsValidTarget())
-	{
-		if (harassQ->Enabled() && Q->IsReady())
+		if (harassMode->GetInteger() == 0)
 		{
-			if (harassMode->GetInteger() == 0)
-			{
-				if (qStack == 1)
-				{
-					CastQ(target);
-				}
-			}
-			else
+			if (qStack == 1)
 			{
 				CastQ(target);
 			}
+		}
+		else
+		{
+			CastQ(target);
 		}
 	}
 }
@@ -1388,24 +1385,22 @@ void AfterJungleClear(IUnit* tar)
 	{
 		for (auto mob : GEntityList->GetAllMinions(false, false, true))
 		{
-			if (mob->IsValidTarget())
+			if (mob->IsValidTarget(Me, 600.0f))
 			{
 				if (jungleClearItem->Enabled())
 				{
 					UseItem();
 				}
 
-				if (jungleClearQ->Enabled() && Q->IsReady() && mob->IsValidTarget(Me, 400.0f) && CastQ(mob))
+				if (jungleClearQ->Enabled() && Q->IsReady() && mob->IsValidTarget(Me, 400.0f))
 				{
-					return;
+					CastQ(mob);
 				}
-
-				if (jungleClearW->Enabled() && W->IsReady() && mob->IsValidTarget(Me, W->GetSpellRange()) && W->CastOnPlayer())
+				else if (jungleClearW->Enabled() && W->IsReady() && mob->IsValidTarget(Me, W->GetSpellRange()))
 				{
-					return;
+					W->CastOnPlayer();
 				}
-
-				if (jungleClearE->Enabled() && E->IsReady() && mob->IsValidTarget(Me, 400.0f))
+				else if (jungleClearE->Enabled() && E->IsReady() && mob->IsValidTarget(Me, 400.0f))
 				{
 					E->CastOnPosition(GGame->CursorPosition());
 				}
@@ -1416,54 +1411,46 @@ void AfterJungleClear(IUnit* tar)
 
 void ComboCast(CastedSpell const& Args)
 {
-	IUnit* target = nullptr;
+	IUnit* target = Args.Target_;
 
-	if (myTarget->IsValidTarget())
-	{
-		target = myTarget;
-	}
-	else if (Args.Target_->IsHero() && Args.Target_->IsEnemy(Me))
-	{
-		target = Args.Target_;
-	}
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+		return;
 
-	if (target != nullptr && target->IsValidTarget(Me, 400.0f))
+	if (target->IsValidTarget(Me, 400.0f))
 	{
-		if (strcmp(Args.Name_, "ItemTiamatCleave") == 0)
+		if (Contains(Args.Name_, "ItemTiamatCleave"))
 		{
-			if (comboW->Enabled() && W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()) && W->CastOnPlayer())
+			if (comboW->Enabled() && W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()))
 			{
-				return;
+				W->CastOnPlayer();
 			}
-
-			if (Q->IsReady() && target->IsValidTarget(Me, 400.0f) && CastQ(target))
+			else if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 			{
-				return;
+				CastQ(target);
 			}
 		}
-
-		if (strcmp(Args.Name_, "RivenMartyr") == 0)
+	
+		if (Contains(Args.Name_, "RivenMartyr"))
 		{
-			if (comboR1->Enabled() && R->IsReady() && !isRActive() && R1Logic(target))
+			if (comboR1->Enabled() && R->IsReady() && !isRActive())
 			{
-				return;
+				R1Logic(target);
 			}
-
-			if (Q->IsReady() && target->IsValidTarget(Me,400.0f) && CastQ(target))
+			else if (Q->IsReady() && target->IsValidTarget(Me,400.0f))
 			{
-				return;
+				CastQ(target);
 			}
 		}
-
-		if (strcmp(Args.Name_, "RivenFengShuiEngine") == 0)
+	
+		if (Contains(Args.Name_, "RivenFengShuiEngine"))
 		{
-			if (comboW->Enabled() && W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()) && W->CastOnPlayer())
+			if (comboW->Enabled() && W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()))
 			{
-				return;
+				W->CastOnPlayer();
 			}
 		}
-
-		if (strcmp(Args.Name_, "RivenIzunaBlade") == 0 && qStack == 2)
+	
+		if (Contains(Args.Name_, "RivenIzunaBlade") && qStack == 2)
 		{
 			if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 			{
@@ -1475,64 +1462,73 @@ void ComboCast(CastedSpell const& Args)
 
 void BurstCast(CastedSpell const& Args)
 {
-	if (forcuTarget != nullptr && forcuTarget->IsValidTarget())
+	IUnit* target = GTargetSelector->GetFocusedTarget();
+
+	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+		return;
+
+	if (target->IsValidTarget(Me, 600.0f))
 	{
 		if (burstMode->GetInteger() == 0)
 		{
-			if (strcmp(Args.Name_, "ItemTiamatCleave") == 0)
+			if (Contains(Args.Name_, "ItemTiamatCleave"))
 			{
-				if (W->IsReady() && forcuTarget->IsValidTarget(Me, W->GetSpellRange()) && W->CastOnPlayer())
+				if (W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()))
 				{
-					return;
+					W->CastOnPlayer();
 				}
-
-				if (Q->IsReady() && forcuTarget->IsValidTarget(Me, 400.0f) && CastQ(forcuTarget))
+				else if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 				{
-					return;
+					CastQ(target);
 				}
 			}
-
-			if (strcmp(Args.Name_, "RivenIzunaBlade") == 0)
+		
+			if (Contains(Args.Name_, "RivenIzunaBlade"))
 			{
-				if (Q->IsReady() && forcuTarget->IsValidTarget(Me, 400.0f))
+				if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 				{
-					Q->CastOnPosition(forcuTarget->GetPosition());
+					Q->CastOnPosition(target->GetPosition());
 				}
 			}
 		}
 		else
 		{
-			if (strcmp(Args.Name_, "RivenIzunaBlade") == 0)
+			if (Contains(Args.Name_, "RivenIzunaBlade"))
 			{
-				if (Q->IsReady() && forcuTarget->IsValidTarget(Me, 400.0f) && Q->CastOnPosition(forcuTarget->GetPosition()))
+				if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 				{
-					return;
+					Q->CastOnPosition(target->GetPosition());
 				}
 			}
-
-			if (strcmp(Args.Name_, "RivenMartyr") == 0)
+		
+			if (Contains(Args.Name_, "RivenMartyr"))
 			{
-				if (comboR1->Enabled() && R->IsReady() && isRActive() && R2->CastOnPosition(forcuTarget->GetPosition()))
+				if (comboR1->Enabled() && R->IsReady() && isRActive())
 				{
-					return;
+					if (R2->CastOnPosition(target->GetPosition()))
+					{
+						if (Q->IsReady())
+						{
+							Q->CastOnPosition(target->GetPosition());
+						}
+					}
 				}
-
-				if (Q->IsReady() && forcuTarget->IsValidTarget(Me, 400.0f) && CastQ(forcuTarget))
+			
+				if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 				{
-					return;
+					CastQ(target);
 				}
 			}
-
-			if (strcmp(Args.Name_, "ItemTiamatCleave") == 0)
+		
+			if (Contains(Args.Name_, "ItemTiamatCleave"))
 			{
-				if (W->IsReady() && forcuTarget->IsValidTarget(Me, W->GetSpellRange()) && W->CastOnPlayer())
+				if (W->IsReady() && target->IsValidTarget(Me, W->GetSpellRange()))
 				{
-					return;
+					W->CastOnPlayer();
 				}
-
-				if (Q->IsReady() && forcuTarget->IsValidTarget(Me, 400.0f))
+				else if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 				{
-					CastQ(forcuTarget);
+					CastQ(target);
 				}
 			}
 		}
@@ -1541,26 +1537,6 @@ void BurstCast(CastedSpell const& Args)
 
 PLUGIN_EVENT(void) OnUpdate()
 {
-	if (GTargetSelector->GetFocusedTarget() != nullptr &&
-		GTargetSelector->GetFocusedTarget()->IsHero() &&
-		GTargetSelector->GetFocusedTarget()->IsEnemy(Me))
-	{
-		myTarget = GTargetSelector->GetFocusedTarget();
-		forcuTarget = GTargetSelector->GetFocusedTarget();
-	}
-	else if (GOrbwalking->GetLastTarget() != nullptr &&
-		GOrbwalking->GetLastTarget()->IsHero() &&
-		GOrbwalking->GetLastTarget()->IsEnemy(Me))
-	{
-		myTarget = GOrbwalking->GetLastTarget();
-		forcuTarget = nullptr;
-	}
-	else 
-	{
-		myTarget = nullptr;
-		forcuTarget = nullptr;
-	}
-
 	if (GEntityList->Player()->GetSpellBook()->GetLevel(kSlotW) > 0)
 	{
 		W->SetSpellRange(Me->HasBuff("RivenFengShuiEngine") ? 330.0f : 260.0f);
@@ -1589,20 +1565,24 @@ PLUGIN_EVENT(void) OnUpdate()
 	{
 		Combo();
 	}
-	else if (GetAsyncKeyState(burstKey->GetInteger()))
+
+	if (GetAsyncKeyState(burstKey->GetInteger()))
 	{
 		Burst();
 	}
-	else if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
+
+	if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
 	{
 		Harass();
 	}
-	else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
+
+	if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
 	{
 		LaneClear();
 		JungleClear();
 	}
-	else if (GetAsyncKeyState(fleeKey->GetInteger()))
+
+	if (GetAsyncKeyState(fleeKey->GetInteger()))
 	{
 		Flee();
 	}
@@ -1610,12 +1590,10 @@ PLUGIN_EVENT(void) OnUpdate()
 
 PLUGIN_EVENT(void) OnAfterAttack(IUnit* unit, IUnit* target)
 {
-	if (unit == nullptr || unit != Me)
+	if (unit != Me)
 	{
 		return;
 	}
-
-	GOrbwalking->SetOverrideTarget(nullptr);
 
 	if (target == nullptr || target->IsDead())
 	{
@@ -1626,15 +1604,18 @@ PLUGIN_EVENT(void) OnAfterAttack(IUnit* unit, IUnit* target)
 	{
 		AfterCombo(target);
 	}
-	else if (GetAsyncKeyState(burstKey->GetInteger()))
+
+	if (GetAsyncKeyState(burstKey->GetInteger()))
 	{
 		AfterBurst();
 	}
-	else if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
+
+	if (GOrbwalking->GetOrbwalkingMode() == kModeMixed)
 	{
 		AfterHarass(target);
 	}
-	else if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
+
+	if (GOrbwalking->GetOrbwalkingMode() == kModeLaneClear)
 	{
 		AfterLaneClear(target);
 		AfterJungleClear(target);
@@ -1643,7 +1624,7 @@ PLUGIN_EVENT(void) OnAfterAttack(IUnit* unit, IUnit* target)
 
 PLUGIN_EVENT(void) OnDoCast(CastedSpell const& Args)
 {
-	if (Args.Caster_ == nullptr || Args.Caster_ != Me)
+	if (Args.Caster_ != Me)
 	{
 		return;
 	}
@@ -1662,7 +1643,7 @@ PLUGIN_EVENT(void) OnSpellCast(CastedSpell const& Args)
 {
 	if (Args.Caster_ == Me)
 	{
-		if (strcmp(Args.Name_, "RivenTriCleave") == 0 && 
+		if ((Contains(Args.Name_, "RivenTriCleave") || Contains(Args.Name_, "ItemTiamatCleave"))&&
 			(GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger())))
 		{
 			GOrbwalking->ResetAA();
@@ -1670,20 +1651,14 @@ PLUGIN_EVENT(void) OnSpellCast(CastedSpell const& Args)
 		
 		if (GOrbwalking->GetOrbwalkingMode() == kModeCombo)
 		{
-			IUnit* target = nullptr;
+			auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, 600.0f);
 
-			if (myTarget->IsValidTarget())
-			{
-				target = myTarget;
-			}
-			else
-			{
-				target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, 600.0f);
-			}
+			if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+				return;
 
-			if (target != nullptr && target->IsValidTarget(Me, 600.0f))
+			if (target->IsValidTarget(Me, 600.0f))
 			{
-				if (strcmp(Args.Name_, "ItemTiamatCleave") == 0)
+				if (Contains(Args.Name_, "ItemTiamatCleave"))
 				{
 					if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 					{
@@ -1691,15 +1666,7 @@ PLUGIN_EVENT(void) OnSpellCast(CastedSpell const& Args)
 					}
 				}
 
-				if (strcmp(Args.Name_, "RivenMartyr") == 0)
-				{
-					if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
-					{
-						CastQ(target);
-					}
-				}
-
-				if (strcmp(Args.Name_, "RivenFeint") == 0)
+				if (Contains(Args.Name_, "RivenFeint"))
 				{
 					if (comboR1->Enabled() && R->IsReady() && !isRActive() && target->IsValidTarget(Me, 500.0f))
 					{
@@ -1710,35 +1677,40 @@ PLUGIN_EVENT(void) OnSpellCast(CastedSpell const& Args)
 		}
 		else if (GetAsyncKeyState(burstKey->GetInteger()))
 		{
-			if (forcuTarget != nullptr && forcuTarget->IsValidTarget())
+			auto target = GTargetSelector->GetFocusedTarget();
+
+			if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
+				return;
+
+			if (target->IsValidTarget(Me, 600.0f))
 			{
-				if (strcmp(Args.Name_, "RivenFeint") == 0)
+				if (Contains(Args.Name_, "RivenFeint"))
 				{
 					if (R->IsReady() && !isRActive())
 					{
 						R->CastOnPlayer();
 					}
 				}
-
-				if (strcmp(Args.Name_, "ItemTiamatCleave") == 0)
+			
+				if (Contains(Args.Name_, "ItemTiamatCleave"))
 				{
-					if (Q->IsReady() && forcuTarget->IsValidTarget(Me, 400.0f))
+					if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 					{
-						CastQ(forcuTarget);
+						CastQ(target);
 					}
 				}
-
-				if (strcmp(Args.Name_, "RivenMartyr") == 0)
+			
+				if (Contains(Args.Name_, "RivenMartyr"))
 				{
-					if (Q->IsReady() && forcuTarget->IsValidTarget(Me, 400.0f))
+					if (Q->IsReady() && target->IsValidTarget(Me, 400.0f))
 					{
-						CastQ(forcuTarget);
+						CastQ(target);
 					}
 				}
 			}
 		}
 	}
-	else if (Args.Caster_->IsEnemy(Me) && Args.Caster_->IsHero())
+	else if (Args.Caster_->IsHero() && Args.Caster_->IsEnemy(Me) && Args.Target_ == Me)
 	{
 		if (!eShield->Enabled() || !E->IsReady())
 		{
@@ -1820,25 +1792,10 @@ PLUGIN_EVENT(void) OnPlayAnimation(IUnit* source, std::string const Args)
 	{
 		R2Cancel();
 	}
-
-	if (Contains(Args, "b4f63b8e"))
-	{
-		// Nothing to do (E didn't need cancel)
-	}
+	
+	// Spell E
+	//if (Contains(Args, "b4f63b8e"))
 }
-
-//PLUGIN_EVENT(void) OnIssueOrder(IUnit * source, DWORD orderIdx, Vec3 position, IUnit * target)
-//{
-//	if (source != Me || target == nullptr)
-//	{
-//		return;
-//	}
-//
-//	if (GOrbwalking->GetOrbwalkingMode() == kModeNone && !GetAsyncKeyState(burstKey->GetInteger()))
-//	{
-//		return;
-//	}
-//}
 
 PLUGIN_API void OnLoad(IPluginSDK* TakoRivenPlus)
 {
@@ -1856,7 +1813,6 @@ PLUGIN_API void OnLoad(IPluginSDK* TakoRivenPlus)
 	GEventManager->AddEventHandler(kEventOnSpellCast, OnSpellCast);
 	GEventManager->AddEventHandler(kEventOnGapCloser, OnGapcloser);
 	GEventManager->AddEventHandler(kEventOnInterruptible, OnInterrupt);
-	//GEventManager->AddEventHandler(kEventOnIssueOrder, OnIssueOrder);
 }
 
 PLUGIN_API void OnUnload()
@@ -1870,5 +1826,4 @@ PLUGIN_API void OnUnload()
 	GEventManager->RemoveEventHandler(kEventOnGapCloser, OnGapcloser);
 	GEventManager->RemoveEventHandler(kEventOnInterruptible, OnInterrupt);
 	GEventManager->RemoveEventHandler(kEventOnPlayAnimation, OnPlayAnimation);
-	//GEventManager->AddEventHandler(kEventOnIssueOrder, OnIssueOrder);
 }

@@ -148,7 +148,7 @@ inline int GetEnemiesCount(IUnit* source, float range)
 
 	for (auto target : GEntityList->GetAllHeros(false, true))
 	{
-		if (target != nullptr)
+		if (target != nullptr && !target->IsDead())
 		{
 			if (Distance(source, target) <= range)
 			{
@@ -166,7 +166,7 @@ inline int GetEnemiesCount(Vec3 position, float range)
 
 	for (auto target : GEntityList->GetAllHeros(false, true))
 	{
-		if (target != nullptr)
+		if (target != nullptr && !target->IsDead())
 		{
 			if (Distance(target, position) <= range)
 			{
@@ -184,7 +184,7 @@ inline int GetAlliesCount(IUnit* source, float range)
 
 	for (auto target : GEntityList->GetAllHeros(true, false))
 	{
-		if (target != nullptr)
+		if (target != nullptr && !target->IsDead())
 		{
 			if (Distance(source, target) <= range)
 			{
@@ -202,7 +202,7 @@ inline int GetAlliesCount(Vec3 position, float range)
 
 	for (auto target : GEntityList->GetAllHeros(true, false))
 	{
-		if (target != nullptr)
+		if (target != nullptr && !target->IsDead())
 		{
 			if (Distance(target, position) <= range)
 			{

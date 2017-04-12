@@ -97,8 +97,8 @@ struct UnitDash
 	IUnit*				Source;			// Unit that started dashing
 	Vec3				StartPosition;	// Position at which the dash starts
 	Vec3				EndPosition;	// Position at which the dash ends
-	int					StartTick;		// Tick at which the dash started (IGame::CurrentTick)
-	int					EndTick;		// Tick at which the dash will end (IGame::CurrentTick)
+	int					StartTick;		// Tick at which the dash started (IGame::TickCount)
+	int					EndTick;		// Tick at which the dash will end (IGame::TickCount)
 	int					Duration;		// Duration in ms the dash will last
 	float				Speed;			// Speed at which the unit will dash from StartPosition to EndPosition
 };
@@ -112,7 +112,7 @@ struct GapCloserSpell
 	Vec3	StartPosition;	// Start position of the spell
 	Vec3	EndPosition;	// End position of the spell
 	bool	IsTargeted;		// True if the spell is targeted
-	int		StartTick;		// Tick at which the spell was cast (IGame::CurrentTick)
+	int		StartTick;		// Tick at which the spell was cast (IGame::TickCount)
 	int		Slot;			// Slot of the spell
 	void*	Data;			// Data to be passed to GPluginSpellData for extended information
 };
@@ -143,7 +143,7 @@ struct CastedSpell
 struct LastCastedSpellArgs
 {
 	CastedSpell		Data; // Spell data
-	int				Tick; // Tick this spell was cast (IGame::CurrentTick)
+	int				Tick; // Tick this spell was cast (IGame::TickCount)
 };
 
 /// <summary>
