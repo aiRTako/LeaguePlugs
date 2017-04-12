@@ -1269,7 +1269,8 @@ void AfterCombo(IUnit* target)
 	{
 		R2Logic(target);
 	}
-	else if (target->IsValidTarget(Me, 450.0f))
+	
+	if (target->IsValidTarget(Me, 450.0f))
 	{
 		CastQ(target);
 	}
@@ -1411,7 +1412,7 @@ void AfterJungleClear(IUnit* tar)
 
 void ComboCast(CastedSpell const& Args)
 {
-	IUnit* target = Args.Target_;
+	auto target = GTargetSelector->FindTarget(QuickestKill, PhysicalDamage, 400.0f);
 
 	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
 		return;
@@ -1462,7 +1463,7 @@ void ComboCast(CastedSpell const& Args)
 
 void BurstCast(CastedSpell const& Args)
 {
-	IUnit* target = GTargetSelector->GetFocusedTarget();
+	auto target = GTargetSelector->GetFocusedTarget();
 
 	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me) )
 		return;
@@ -1675,7 +1676,8 @@ PLUGIN_EVENT(void) OnSpellCast(CastedSpell const& Args)
 				}
 			}
 		}
-		else if (GetAsyncKeyState(burstKey->GetInteger()))
+
+		if (GetAsyncKeyState(burstKey->GetInteger()))
 		{
 			auto target = GTargetSelector->GetFocusedTarget();
 
