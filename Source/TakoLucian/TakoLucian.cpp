@@ -342,15 +342,15 @@ void OnUpdateCombo()
 
 			if (rDMG * 0.8 > target->GetHealth() && tDis < 700 && !Q->IsReady())
 			{
-				R->CastOnPosition(target->GetPosition());
+				R->CastOnTarget(target);
 			}
 			else if (rDMG * 0.6 >target->GetHealth() && tDis < 900)
 			{
-				R->CastOnPosition(target->GetPosition());
+				R->CastOnTarget(target);
 			}
 			else if (rDMG * 0.4 >target->GetHealth() && tDis < 1200)
 			{
-				R->CastOnPosition(target->GetPosition());
+				R->CastOnTarget(target);
 			}
 		}
 	}
