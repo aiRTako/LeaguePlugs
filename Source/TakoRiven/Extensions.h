@@ -1,8 +1,7 @@
+#pragma once
+
 #include "PluginSDK.h"
 #include <string>
-#include <algorithm>
-
-using namespace std;
 
 #pragma region Translate
 
@@ -43,7 +42,61 @@ const char* cpc = pc;
 
 #pragma region Status
 
-inline bool IsUnKillable(IUnit* target)
+inline static bool HaveShield(IUnit* target)
+{
+	if (target == nullptr || target->IsDead())
+	{
+		return true;
+	}
+
+	if (target->IsInvulnerable())
+	{
+		return true;
+	}
+
+	if (target->HasBuff("SivirE")) // Sivir E
+	{
+		return true;
+	}
+
+	if (target->HasBuff("BlackShield")) // Morgana E
+	{
+		return true;
+	}
+
+	if (target->HasBuff("NocturneShit")) // Noc E
+	{
+		return true;
+	}
+
+	if (target->HasBuff("itemmagekillerveil"))
+	{
+		return true;
+	}
+
+	return false;
+}
+
+inline static bool CanMove(IUnit* target)
+{
+	if (target->MovementSpeed() < 50 || 
+		target->HasBuffOfType(BUFF_Stun) || 
+		target->HasBuffOfType(BUFF_Fear) || 
+		target->HasBuffOfType(BUFF_Snare) || 
+		target->HasBuffOfType(BUFF_Knockup) || 
+		target->HasBuff("Recall") ||
+		target->HasBuffOfType(BUFF_Knockback) || 
+		target->HasBuffOfType(BUFF_Charm) || 
+		target->HasBuffOfType(BUFF_Taunt) || 
+		target->HasBuffOfType(BUFF_Suppression))
+	{
+		return false;
+	}
+
+	return true;
+}
+
+inline static bool IsUnKillable(IUnit* target)
 {
 	if (target == nullptr)
 	{
@@ -92,14 +145,14 @@ inline bool IsUnKillable(IUnit* target)
 
 #pragma region PrintChat
 
-inline void WriteChat(std::string const msg)
+inline static void WriteChat(std::string const msg)
 {
 	const char* c_s = msg.c_str();
 
 	GGame->PrintChat(c_s);
 }
 
-inline void WriteChat(const char* msg)
+inline static void WriteChat(const char* msg)
 {
 	GGame->PrintChat(msg);
 }
@@ -108,41 +161,81 @@ inline void WriteChat(const char* msg)
 
 #pragma region Distance & DistanceToPlayer
 
-inline float Distance(Vec3 from, Vec3 to)
+inline static float Distance(Vec3 from, Vec3 to)
 {
-	return (from - to).Length2D();
+	float x1 = from.x;
+	float x2 = to.x;
+
+	float y1 = from.y;
+	float y2 = to.y;
+
+	float z1 = from.z;
+	float z2 = to.z;
+
+	return static_cast<float>(sqrt(pow((x2 - x1), 2.0) + pow((y2 - y1), 2.0) + pow((z2 - z1), 2.0)));
 }
 
-inline float Distance(IUnit* from, IUnit* to)
+inline static float Distance(IUnit* from, IUnit* to)
 {
-	return (from->GetPosition() - to->GetPosition()).Length2D();
+	float x1 = from->GetPosition().x;
+	float x2 = to->GetPosition().x;
+
+	float y1 = from->GetPosition().y;
+	float y2 = to->GetPosition().y;
+
+	float z1 = from->GetPosition().z;
+	float z2 = to->GetPosition().z;
+
+	return static_cast<float>(sqrt(pow((x2 - x1), 2.0) + pow((y2 - y1), 2.0) + pow((z2 - z1), 2.0)));
 }
 
-inline float Distance(IUnit* from, Vec3 to)
+inline static float Distance(IUnit* from, Vec3 to)
 {
-	return (from->GetPosition() - to).Length2D();
+	float x1 = from->GetPosition().x;
+	float x2 = to.x;
+
+	float y1 = from->GetPosition().y;
+	float y2 = to.y;
+
+	float z1 = from->GetPosition().z;
+	float z2 = to.z;
+
+	return static_cast<float>(sqrt(pow((x2 - x1), 2.0) + pow((y2 - y1), 2.0) + pow((z2 - z1), 2.0)));
 }
 
-inline float Distance(Vec2 from, Vec2 to)
+inline static float DistanceToPlayer(IUnit* target)
 {
-	return (from - to).Length();
+	float x1 = GEntityList->Player()->GetPosition().x;
+	float x2 = target->GetPosition().x;
+
+	float y1 = GEntityList->Player()->GetPosition().y;
+	float y2 = target->GetPosition().y;
+
+	float z1 = GEntityList->Player()->GetPosition().z;
+	float z2 = target->GetPosition().z;
+
+	return static_cast<float>(sqrt(pow((x2 - x1), 2.0) + pow((y2 - y1), 2.0) + pow((z2 - z1), 2.0)));
 }
 
-inline float DistanceToPlayer(IUnit* target)
+inline static float DistanceToPlayer(Vec3 to)
 {
-	return (target->GetPosition() - GEntityList->Player()->GetPosition()).Length2D();
-}
+	float x1 = GEntityList->Player()->GetPosition().x;
+	float x2 = to.x;
 
-inline float DistanceToPlayer(Vec3 Position)
-{
-	return (Position - GEntityList->Player()->GetPosition()).Length2D();
+	float y1 = GEntityList->Player()->GetPosition().y;
+	float y2 = to.y;
+
+	float z1 = GEntityList->Player()->GetPosition().z;
+	float z2 = to.z;
+
+	return static_cast<float>(sqrt(pow((x2 - x1), 2.0) + pow((y2 - y1), 2.0) + pow((z2 - z1), 2.0)));
 }
 
 #pragma endregion
 
 #pragma region Get Enemies/Allies Count
 
-inline int GetEnemiesCount(IUnit* source, float range)
+inline static int GetEnemiesCount(IUnit* source, float range)
 {
 	auto Count = 0;
 
@@ -160,7 +253,7 @@ inline int GetEnemiesCount(IUnit* source, float range)
 	return Count;
 }
 
-inline int GetEnemiesCount(Vec3 position, float range)
+inline static int GetEnemiesCount(Vec3 position, float range)
 {
 	auto Count = 0;
 
@@ -178,7 +271,7 @@ inline int GetEnemiesCount(Vec3 position, float range)
 	return Count;
 }
 
-inline int GetAlliesCount(IUnit* source, float range)
+inline static int GetAlliesCount(IUnit* source, float range)
 {
 	auto Count = 0;
 
@@ -196,7 +289,7 @@ inline int GetAlliesCount(IUnit* source, float range)
 	return Count;
 }
 
-inline int GetAlliesCount(Vec3 position, float range)
+inline static int GetAlliesCount(Vec3 position, float range)
 {
 	auto Count = 0;
 
@@ -214,7 +307,7 @@ inline int GetAlliesCount(Vec3 position, float range)
 	return Count;
 }
 
-inline int GetMinionsCount(IUnit* target, float range)
+inline static int GetMinionsCount(IUnit* target, float range)
 {
 	auto minions = 0;
 
@@ -232,7 +325,7 @@ inline int GetMinionsCount(IUnit* target, float range)
 	return minions;
 }
 
-inline int GetMinionsCount(Vec3 pos, float range)
+inline static int GetMinionsCount(Vec3 pos, float range)
 {
 	auto minions = 0;
 
@@ -250,7 +343,7 @@ inline int GetMinionsCount(Vec3 pos, float range)
 	return minions;
 }
 
-inline int GetMobsCount(IUnit* target, float range)
+inline static int GetMobsCount(IUnit* target, float range)
 {
 	auto minions = 0;
 
@@ -268,7 +361,7 @@ inline int GetMobsCount(IUnit* target, float range)
 	return minions;
 }
 
-inline int GetMobsCount(Vec3 pos, float range)
+inline static int GetMobsCount(Vec3 pos, float range)
 {
 	auto minions = 0;
 
@@ -290,7 +383,7 @@ inline int GetMobsCount(Vec3 pos, float range)
 
 #pragma region string
 
-inline std::string ToLower(std::string str)
+inline static std::string ToLower(std::string str)
 {
 	auto result = str;
 
@@ -302,7 +395,7 @@ inline std::string ToLower(std::string str)
 	return result;
 }
 
-inline bool Contains(std::string a, std::string b)
+inline static bool Contains(std::string a, std::string b)
 {
 	auto aLower = ToLower(a);
 	auto bLower = ToLower(b);
@@ -310,7 +403,7 @@ inline bool Contains(std::string a, std::string b)
 	return aLower.find(bLower) != std::string::npos;
 }
 
-inline bool Equals(std::string a, std::string b)
+inline static bool Equals(std::string a, std::string b)
 {
 	return strcmp(a.c_str(), b.c_str()) == 0;
 }
