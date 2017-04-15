@@ -11,11 +11,11 @@
 #include "OnInterrupt.h"
 #include "OnRender.h"
 
-PluginSetup("Tako Riven Plus");
+PluginSetup("TakoRiven Plus");
 
-PLUGIN_API void OnLoad(IPluginSDK* TakoRivenPlus)
+PLUGIN_API void OnLoad(IPluginSDK* PluginSDK)
 {
-	PluginSDKSetup(TakoRivenPlus);
+	PluginSDKSetup(PluginSDK);
 
 	Me = GEntityList->Player();
 
