@@ -1,6 +1,7 @@
 #pragma once
 
 #include "PluginSDK.h"
+
 #include <map>
 #include <string>
 
@@ -395,37 +396,37 @@ inline static void R2Logic(IUnit* target)
 inline static void InitSpells()
 {
 	Q = GPluginSDK->CreateSpell2(kSlotQ, kCircleCast, false, true, kCollidesWithNothing);
-	Q->SetSkillshot(0.25f, 100.0f, 2200.0f, 325.0f);
+	Q->SetSkillshot(0.25, 100, 2200, 325);
 
-	W = GPluginSDK->CreateSpell(kSlotW, 260.0f);
+	W = GPluginSDK->CreateSpell(kSlotW, 260);
 
 	E = GPluginSDK->CreateSpell2(kSlotE, kLineCast, false, true, kCollidesWithNothing);
-	E->SetOverrideRange(312.0f);
+	E->SetOverrideRange(312);
 
 	R = GPluginSDK->CreateSpell(kSlotR);
 
 	R2 = GPluginSDK->CreateSpell2(kSlotR, kConeCast, false, true, kCollidesWithYasuoWall);
-	R2->SetSkillshot(0.25f, 45.0f, 1600.0f, 900.0f);
+	R2->SetSkillshot(0.25, 45, 1600, 900);
 
 	if (GEntityList->Player()->GetSpellSlot("SummonerFlash") != kSlotUnknown)
 	{
-		Flash = GPluginSDK->CreateSpell(GEntityList->Player()->GetSpellSlot("SummonerFlash"), 425.0f);
+		Flash = GPluginSDK->CreateSpell(GEntityList->Player()->GetSpellSlot("SummonerFlash"), 425);
 	}
 
 	if (GEntityList->Player()->GetSpellSlot("SummonerDot") != kSlotUnknown)
 	{
-		Ignite = GPluginSDK->CreateSpell(GEntityList->Player()->GetSpellSlot("SummonerDot"), 600.0f);
+		Ignite = GPluginSDK->CreateSpell(GEntityList->Player()->GetSpellSlot("SummonerDot"), 600);
 	}
 
-	Youmuu = GPluginSDK->CreateItemForId(3142, 0.0f);
-	Tiamat = GPluginSDK->CreateItemForId(3077, 400.0f);
-	Titanic = GPluginSDK->CreateItemForId(3748, 400.0f);
-	Ravenous = GPluginSDK->CreateItemForId(3074, 400.0f);
+	Youmuu = GPluginSDK->CreateItemForId(3142, 0);
+	Tiamat = GPluginSDK->CreateItemForId(3077, 400);
+	Titanic = GPluginSDK->CreateItemForId(3748, 400);
+	Ravenous = GPluginSDK->CreateItemForId(3074, 400);
 }
 
 inline static void InitMenu()
 {
-	mainMenu = GPluginSDK->AddMenu("Tako Riven Plus");
+	mainMenu = GPluginSDK->AddMenu("TakoRiven Plus");
 
 	comboMenu = mainMenu->AddMenu("Combo Settings");
 	{
@@ -435,7 +436,7 @@ inline static void InitMenu()
 		comboE = comboMenu->CheckBox("Use E", true);
 		comboEGap = comboMenu->CheckBox("Use E Gapcloser", true);
 		comboR1 = comboMenu->CheckBox("Use R1", true);
-		comboR1Ex = comboMenu->CheckBox("Use R1-> If Target Cant normal Kill", true);
+		comboR1Ex = comboMenu->CheckBox("Use R1 (if target need R DMG to KS)", true);
 		comboR2 = comboMenu->AddSelection("Use R2 Mode: ", 0, { "Logic", "First Cast", "Only KillSteal", "Off" });
 		comboItem = comboMenu->CheckBox("Use Item", true);
 		comboDot = comboMenu->CheckBox("Use Ignite", true);
@@ -447,6 +448,8 @@ inline static void InitMenu()
 		burstDot = burstMenu->CheckBox("Use Ignite", true);
 		burstMode = burstMenu->AddSelection("Burst Mode: ", 0, { "Shy", "EQ Flash" });
 		burstKey = burstMenu->AddKey("Burst Key", 84);//84 = T Key
+		auto burst1 = burstMenu->CheckBox("You need to left click target", false);
+		auto burst2 = burstMenu->CheckBox("then press burst key", false);
 	}
 
 	harassMenu = mainMenu->AddMenu("Harass Settings");

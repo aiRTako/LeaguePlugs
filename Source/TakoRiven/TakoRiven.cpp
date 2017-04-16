@@ -11,7 +11,7 @@
 #include "OnInterrupt.h"
 #include "OnRender.h"
 
-PluginSetup("TakoRiven Plus");
+PluginSetup("TakoRivenPlus");
 
 PLUGIN_API void OnLoad(IPluginSDK* PluginSDK)
 {
