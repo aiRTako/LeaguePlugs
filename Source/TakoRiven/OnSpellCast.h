@@ -27,6 +27,7 @@ PLUGIN_EVENT(void) OnSpellCast(CastedSpell const& Args)
 			BurstSpellCast(Args);
 		}
 	}
+	// just C&P that, bitch
 	else if (Args.Caster_->IsHero() && Args.Caster_->IsEnemy(Me) && Args.Target_ == Me)
 	{
 		if (!eShield->Enabled() || !E->IsReady())
