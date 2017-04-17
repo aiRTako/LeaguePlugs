@@ -18,7 +18,7 @@ PLUGIN_EVENT(void) OnDoCast(CastedSpell const& Args)
 		ComboDoCast(Args);
 	}
 	
-	if (GetAsyncKeyState(burstKey->GetInteger()))
+	if (GetAsyncKeyState(BurstKey->GetInteger()))
 	{
 		BurstDoCast(Args);
 	}

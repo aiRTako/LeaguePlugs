@@ -6,15 +6,15 @@
 
 inline static void JungleClearOnUpdate()
 {
-	if (jungleClearW->Enabled() && W->IsReady() && qStack > 0)
+	if (JungleClearW->Enabled() && W->IsReady() && qStack > 0)
 	{
-		if (GetMobsCount(Me, W->GetSpellRange()) > 0 && W->CastOnPlayer())
+		if (GetMobsCount(Me, GetWRange()) > 0 && W->CastOnPlayer())
 		{
 			return;
 		}
 	}
 
-	if (jungleClearW->Enabled() && W->IsReady() && qStack > 0)
+	if (JungleClearW->Enabled() && W->IsReady() && qStack > 0)
 	{
 		if (GetMobsCount(Me, (float)((Me->AttackRange() + Me->BoundingRadius())* 2.5)) > 0)
 		{
@@ -45,20 +45,20 @@ inline static void AfterJungleClear(IUnit* tar)
 		{
 			if (mob->IsValidTarget(Me, 600.0f))
 			{
-				if (jungleClearItem->Enabled())
+				if (JungleClearItem->Enabled())
 				{
 					UseItem(false);
 				}
 
-				if (jungleClearQ->Enabled() && Q->IsReady() && mob->IsValidTarget(Me, 400.0f))
+				if (JungleClearQ->Enabled() && Q->IsReady() && mob->IsValidTarget(Me, 400.0f))
 				{
 					CastQ(mob);
 				}
-				else if (jungleClearW->Enabled() && W->IsReady() && mob->IsValidTarget(Me, W->GetSpellRange()))
+				else if (JungleClearW->Enabled() && W->IsReady() && mob->IsValidTarget(Me, GetWRange()))
 				{
 					W->CastOnPlayer();
 				}
-				else if (jungleClearE->Enabled() && E->IsReady() && mob->IsValidTarget(Me, 400.0f))
+				else if (JungleClearE->Enabled() && E->IsReady() && mob->IsValidTarget(Me, 400.0f))
 				{
 					E->CastOnPosition(GGame->CursorPosition());
 				}

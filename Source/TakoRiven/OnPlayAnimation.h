@@ -15,21 +15,21 @@ PLUGIN_EVENT(void) OnPlayAnimation(IUnit* source, std::string const Args)
 	if (Contains(Args, "c29"))
 	{
 		qStack = 1;
-		lastQTime = GGame->CurrentTick();
+		lastQTime = GGame->TickCount();
 		Q1Q2Cancel();
 		return;
 	}
 	else if (Contains(Args, "c39"))
 	{
 		qStack = 2;
-		lastQTime = GGame->CurrentTick();
+		lastQTime = GGame->TickCount();
 		Q1Q2Cancel();
 		return;
 	}
 	else if (Contains(Args, "c49"))
 	{
 		qStack = 0;
-		lastQTime = GGame->CurrentTick();
+		lastQTime = GGame->TickCount();
 		Q3Cancel();
 	}
 

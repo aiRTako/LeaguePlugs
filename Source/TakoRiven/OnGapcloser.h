@@ -6,12 +6,12 @@
 
 PLUGIN_EVENT(void) OnGapcloser(GapCloserSpell const& Args)
 {
-	if (!antiGap->Enabled() || !W->IsReady() || Args.Source == nullptr || !Args.Source->IsHero() || !Args.Source->IsEnemy(Me))
+	if (!AntiGap->Enabled() || !W->IsReady() || Args.Source == nullptr || !Args.Source->IsHero() || !Args.Source->IsEnemy(Me))
 	{
 		return;
 	}
 
-	if (!Args.Source->IsDead() && !Contains(Args.Source->ChampionName(), "MasterYi") && Args.Source->IsValidTarget(Me, W->GetSpellRange()))
+	if (!Args.Source->IsDead() && !Contains(Args.Source->ChampionName(), "MasterYi") && Args.Source->IsValidTarget(Me, GetWRange()))
 	{
 		W->CastOnPlayer();
 	}

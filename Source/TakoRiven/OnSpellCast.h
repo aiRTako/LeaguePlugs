@@ -12,7 +12,7 @@ PLUGIN_EVENT(void) OnSpellCast(CastedSpell const& Args)
 	if (Args.Caster_ == Me)
 	{
 		//if ((Contains(Args.Name_, "RivenTriCleave") || Contains(Args.Name_, "ItemTiamatCleave")) &&
-		//	(GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger())))
+		//	(GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(BurstKey->GetInteger())))
 		//{
 		//	GOrbwalking->ResetAA();
 		//}
@@ -22,7 +22,7 @@ PLUGIN_EVENT(void) OnSpellCast(CastedSpell const& Args)
 			ComboSpellCast(Args);
 		}
 
-		if (GetAsyncKeyState(burstKey->GetInteger()))
+		if (GetAsyncKeyState(BurstKey->GetInteger()))
 		{
 			BurstSpellCast(Args);
 		}
@@ -30,14 +30,20 @@ PLUGIN_EVENT(void) OnSpellCast(CastedSpell const& Args)
 	// just C&P that, bitch
 	else if (Args.Caster_->IsHero() && Args.Caster_->IsEnemy(Me) && Args.Target_ == Me)
 	{
-		if (!eShield->Enabled() || !E->IsReady())
+		if (!EShield->Enabled() || !E->IsReady())
 		{
 			return;
 		}
 
-		if (find(dodgeSpell.begin(), dodgeSpell.end(), Args.Name_) != dodgeSpell.end())
+		for (auto spellName : dodgeSpellNameData)
 		{
-			E->CastOnPosition(GGame->CursorPosition());
+			if (std::string(Args.Name_) == spellName)
+			{
+				if (E->CastOnPosition(GGame->CursorPosition()))
+				{
+					return;
+				}
+			}
 		}
 	}
 }

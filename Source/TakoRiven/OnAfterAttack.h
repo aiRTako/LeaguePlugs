@@ -26,7 +26,7 @@ PLUGIN_EVENT(void) OnAfterAttack(IUnit* unit, IUnit* target)
 		AfterCombo(target);
 	}
 
-	if (GetAsyncKeyState(burstKey->GetInteger()))
+	if (GetAsyncKeyState(BurstKey->GetInteger()))
 	{
 		AfterBurst();
 	}

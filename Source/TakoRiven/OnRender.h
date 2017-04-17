@@ -10,17 +10,17 @@ PLUGIN_EVENT(void) OnRender()
 		return;
 	}
 
-	if (W->IsReady() && drawW->Enabled())
+	if (W->IsReady() && DrawW->Enabled())
 	{
-		GRender->DrawOutlinedCircle(Me->GetPosition(), Vec4(255, 255, 0, 255), W->GetSpellRange());
+		GRender->DrawOutlinedCircle(Me->GetPosition(), Vec4(255, 255, 0, 255), GetWRange());
 	}
 
-	if (R2->IsReady() && drawR->Enabled())
+	if (R2->IsReady() && DrawR->Enabled())
 	{
 		GRender->DrawOutlinedCircle(Me->GetPosition(), Vec4(255, 255, 0, 255), R2->Range());
 	}
 
-	if (drawDMG->Enabled()) // Credit: Kornis
+	if (DrawDMG->Enabled()) // Credit: Kornis
 	{
 		for (auto hero : GEntityList->GetAllHeros(false, true))
 		{

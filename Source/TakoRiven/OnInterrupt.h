@@ -5,12 +5,12 @@
 
 PLUGIN_EVENT(void) OnInterrupt(InterruptibleSpell const& Args)
 {
-	if (!interr->Enabled() || !W->IsReady() || Args.Source == nullptr || !Args.Source->IsHero() || !Args.Source->IsEnemy(Me))
+	if (!Interr->Enabled() || !W->IsReady() || Args.Source == nullptr || !Args.Source->IsHero() || !Args.Source->IsEnemy(Me))
 	{
 		return;
 	}
 
-	if (Args.Source->IsValidTarget(Me, W->GetSpellRange()) && Args.DangerLevel == kHighDanger)
+	if (Args.Source->IsValidTarget(Me, GetWRange()) && Args.DangerLevel == kHighDanger)
 	{
 		W->CastOnPlayer();
 	}

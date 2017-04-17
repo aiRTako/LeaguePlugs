@@ -5,14 +5,14 @@
 
 inline static void Q1Q2Cancel()
 {
-	if (GetAsyncKeyState(fleeKey->GetInteger()))
+	if (GetAsyncKeyState(FleeKey->GetInteger()))
 	{
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
+	if (ManualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(BurstKey->GetInteger()))
 	{
-		if (calculatePing->Enabled())
+		if (CalculatePing->Enabled())
 		{
 			if (291 - GGame->Latency() > 0)
 			{
@@ -20,7 +20,6 @@ inline static void Q1Q2Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-					//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 						GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -28,10 +27,10 @@ inline static void Q1Q2Cancel()
 						GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
-					//else
-					//{
-					//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-					//}
+					else
+					{
+						GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+					}
 				});
 				return;
 			}
@@ -41,7 +40,6 @@ inline static void Q1Q2Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-					//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 						GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -49,10 +47,10 @@ inline static void Q1Q2Cancel()
 						GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
-					//else
-					//{
-					//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-					//}
+					else
+					{
+						GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+					}
 				});
 				return;
 			}
@@ -63,7 +61,6 @@ inline static void Q1Q2Cancel()
 			{
 				GOrbwalking->ResetAA();
 				GGame->Taunt(kDance);
-				//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 					GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -71,10 +68,10 @@ inline static void Q1Q2Cancel()
 					GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 					GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 				}
-				//else
-				//{
-				//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-				//}
+				else
+				{
+					GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+				}
 			});
 			return;
 		}
@@ -83,14 +80,14 @@ inline static void Q1Q2Cancel()
 
 inline static void Q3Cancel()
 {
-	if (GetAsyncKeyState(fleeKey->GetInteger()))
+	if (GetAsyncKeyState(FleeKey->GetInteger()))
 	{
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
+	if (ManualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(BurstKey->GetInteger()))
 	{
-		if (calculatePing->Enabled())
+		if (CalculatePing->Enabled())
 		{
 			if (391 - GGame->Latency() > 0)
 			{
@@ -98,7 +95,6 @@ inline static void Q3Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-					//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 						GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -106,10 +102,10 @@ inline static void Q3Cancel()
 						GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
-					//else
-					//{
-					//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-					//}
+					else
+					{
+						GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+					}
 				});
 				return;
 			}
@@ -120,18 +116,16 @@ inline static void Q3Cancel()
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
 
-					//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
-
 					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 						GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
 					{
 						GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
-					//else
-					//{
-					//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-					//}
+					else
+					{
+						GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+					}
 				});
 				return;
 			}
@@ -142,7 +136,6 @@ inline static void Q3Cancel()
 			{
 				GOrbwalking->ResetAA();
 				GGame->Taunt(kDance);
-				//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 					GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -150,10 +143,10 @@ inline static void Q3Cancel()
 					GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 					GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 				}
-				//else
-				//{
-				//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-				//}
+				else
+				{
+					GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+				}
 			});
 			return;
 		}
@@ -162,14 +155,14 @@ inline static void Q3Cancel()
 
 inline static void WCancel()
 {
-	if (GetAsyncKeyState(fleeKey->GetInteger()))
+	if (GetAsyncKeyState(FleeKey->GetInteger()))
 	{
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
+	if (ManualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(BurstKey->GetInteger()))
 	{
-		if (calculatePing->Enabled())
+		if (CalculatePing->Enabled())
 		{
 			if (50 - GGame->Latency() > 0)
 			{
@@ -177,6 +170,7 @@ inline static void WCancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
+					GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 				});
 				return;
 			}
@@ -186,6 +180,7 @@ inline static void WCancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
+					GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 				});
 				return;
 			}
@@ -196,6 +191,7 @@ inline static void WCancel()
 			{
 				GOrbwalking->ResetAA();
 				GGame->Taunt(kDance);
+				GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 			});
 			return;
 		}
@@ -204,14 +200,14 @@ inline static void WCancel()
 
 inline static void R1Cancel()
 {
-	if (GetAsyncKeyState(fleeKey->GetInteger()))
+	if (GetAsyncKeyState(FleeKey->GetInteger()))
 	{
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
+	if (ManualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(BurstKey->GetInteger()))
 	{
-		if (calculatePing->Enabled())
+		if (CalculatePing->Enabled())
 		{
 			if (50 - GGame->Latency() > 0)
 			{
@@ -219,7 +215,6 @@ inline static void R1Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-					//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 						GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -227,10 +222,10 @@ inline static void R1Cancel()
 						GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
-					//else
-					//{
-					//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-					//}
+					else
+					{
+						GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+					}
 				});
 				return;
 			}
@@ -240,7 +235,6 @@ inline static void R1Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-					//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 						GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -248,10 +242,10 @@ inline static void R1Cancel()
 						GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
-					//else
-					//{
-					//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-					//}
+					else
+					{
+						GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+					}
 				});
 				return;
 			}
@@ -262,7 +256,6 @@ inline static void R1Cancel()
 			{
 				GOrbwalking->ResetAA();
 				GGame->Taunt(kDance);
-				//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 					GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -270,10 +263,10 @@ inline static void R1Cancel()
 					GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 					GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 				}
-				//else
-				//{
-				//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-				//}
+				else
+				{
+					GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+				}
 			});
 			return;
 		}
@@ -282,14 +275,14 @@ inline static void R1Cancel()
 
 inline static void R2Cancel()
 {
-	if (GetAsyncKeyState(fleeKey->GetInteger()))
+	if (GetAsyncKeyState(FleeKey->GetInteger()))
 	{
 		return;
 	}
 
-	if (manualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(burstKey->GetInteger()))
+	if (ManualCancel->Enabled() || GOrbwalking->GetOrbwalkingMode() != kModeNone || GetAsyncKeyState(BurstKey->GetInteger()))
 	{
-		if (calculatePing->Enabled())
+		if (CalculatePing->Enabled())
 		{
 			if (180 - GGame->Latency() > 0)
 			{
@@ -297,7 +290,6 @@ inline static void R2Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-					//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 						GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -305,10 +297,10 @@ inline static void R2Cancel()
 						GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
-					//else
-					//{
-					//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-					//}
+					else
+					{
+						GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+					}
 				});
 				return;
 			}
@@ -318,7 +310,6 @@ inline static void R2Cancel()
 				{
 					GOrbwalking->ResetAA();
 					GGame->Taunt(kDance);
-					//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 					if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 						GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -326,10 +317,10 @@ inline static void R2Cancel()
 						GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 						GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 					}
-					//else
-					//{
-					//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-					//}
+					else
+					{
+						GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+					}
 				});
 				return;
 			}
@@ -340,7 +331,6 @@ inline static void R2Cancel()
 			{
 				GOrbwalking->ResetAA();
 				GGame->Taunt(kDance);
-				//GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
 
 				if (GOrbwalking->GetLastTarget() != nullptr && !GOrbwalking->GetLastTarget()->IsDead() &&
 					GOrbwalking->GetLastTarget()->IsValidTarget(Me, Me->GetRealAutoAttackRange(GOrbwalking->GetLastTarget()) + Me->BoundingRadius()))
@@ -348,10 +338,10 @@ inline static void R2Cancel()
 					GGame->IssueOrder(Me, kAttackTo, GOrbwalking->GetLastTarget());
 					GOrbwalking->Orbwalk(GOrbwalking->GetLastTarget(), GGame->CursorPosition());
 				}
-				//else
-				//{
-				//	GOrbwalking->Orbwalk(nullptr, GGame->CursorPosition());
-				//}
+				else
+				{
+					GGame->IssueOrder(Me, kMoveTo, GGame->CursorPosition());
+				}
 			});
 			return;
 		}

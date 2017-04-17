@@ -2,9 +2,6 @@
 
 #include "PluginSDK.h"
 
-#include <map>
-#include <string>
-
 ISpell* Flash;
 ISpell* Ignite;
 
@@ -14,70 +11,69 @@ ISpell2* E;
 ISpell* R;
 ISpell2* R2;
 
-IMenu* mainMenu;
+IMenu* MainMenu;
 
-IMenu* comboMenu;
-IMenuOption* comboQ;
-IMenuOption* comboW;
-IMenuOption* comboWLogic;
-IMenuOption* comboE;
-IMenuOption* comboEGap;
-IMenuOption* comboR1;
-IMenuOption* comboR1Ex;
-IMenuOption* comboR2;
-IMenuOption* comboDot;
-IMenuOption* comboItem;
+IMenu* ComboMenu;
+IMenuOption* ComboQ;
+IMenuOption* ComboW;
+IMenuOption* ComboWLogic;
+IMenuOption* ComboE;
+IMenuOption* ComboEGap;
+IMenuOption* ComboR1;
+IMenuOption* ComboR1Ex;
+IMenuOption* ComboR2;
+IMenuOption* ComboDot;
+IMenuOption* ComboItem;
 
-IMenu* burstMenu;
-IMenuOption* burstFlash;
-IMenuOption* burstDot;
-IMenuOption* burstMode;
-IMenuOption* burstKey;
+IMenu* BurstMenu;
+IMenuOption* BurstFlash;
+IMenuOption* BurstDot;
+IMenuOption* BurstMode;
+IMenuOption* BurstKey;
 
-IMenu* harassMenu;
-IMenuOption* harassQ;
-IMenuOption* harassW;
-IMenuOption* harassE;
-IMenuOption* harassMode;
+IMenu* HarassMenu;
+IMenuOption* HarassQ;
+IMenuOption* HarassW;
+IMenuOption* HarassE;
+IMenuOption* HarassMode;
 
-IMenu* laneclearMenu;
-IMenuOption* laneclearQ;
-IMenuOption* laneclearQSmart;
-IMenuOption* laneclearQTurret;
-IMenuOption* laneclearW;
-IMenuOption* laneclearWCount;
-IMenuOption* laneclearItem;
+IMenu* LaneClearMenu;
+IMenuOption* LaneClearQ;
+IMenuOption* LaneClearQSmart;
+IMenuOption* LaneClearQTurret;
+IMenuOption* LaneClearW;
+IMenuOption* LaneClearWCount;
+IMenuOption* LaneClearItem;
 
-IMenu* jungleClearMenu;
-IMenuOption* jungleClearQ;
-IMenuOption* jungleClearW;
-IMenuOption* jungleClearE;
-IMenuOption* jungleClearItem;
+IMenu* JungleClearMenu;
+IMenuOption* JungleClearQ;
+IMenuOption* JungleClearW;
+IMenuOption* JungleClearE;
+IMenuOption* JungleClearItem;
 
-IMenu* fleeMenu;
-IMenuOption* fleeQ;
-IMenuOption* fleeW;
-IMenuOption* fleeE;
-IMenuOption* fleeKey;
+IMenu* FleeMenu;
+IMenuOption* FleeQ;
+IMenuOption* FleeW;
+IMenuOption* FleeE;
+IMenuOption* FleeKey;
 
-IMenu* killStealMenu;
-IMenuOption* killStealW;
-IMenuOption* killStealR;
-std::map<int, IMenuOption*> killStealList;
+IMenu* KillStealMenu;
+IMenuOption* KillStealW;
+IMenuOption* KillStealR;
 
-IMenu* miscMenu;
-IMenuOption* keepQ;
-IMenuOption* qMode;
-IMenuOption* antiGap;
-IMenuOption* interr;
-IMenuOption* eShield;
-IMenuOption* manualCancel;
-IMenuOption* calculatePing;
+IMenu* MiscMenu;
+IMenuOption* KeepQ;
+IMenuOption* QMode;
+IMenuOption* AntiGap;
+IMenuOption* Interr;
+IMenuOption* EShield;
+IMenuOption* ManualCancel;
+IMenuOption* CalculatePing;
 
-IMenu* drawMenu;
-IMenuOption* drawW;
-IMenuOption* drawR;
-IMenuOption* drawDMG;
+IMenu* DrawMenu;
+IMenuOption* DrawW;
+IMenuOption* DrawR;
+IMenuOption* DrawDMG;
 
 IUnit* Me;
 
@@ -89,12 +85,12 @@ IInventoryItem* Youmuu;
 static int qStack = 0;
 static int lastQTime = 0;
 
-static std::vector<std::string> dodgeSpell =
+static std::vector<std::string> dodgeSpellNameData =
 {
 	"dariusexecute", "monkeykingspintowin", "pantheonw", "vaynecondemm",
 	"vaynesilvereddebuff", "rocketgrab2","bluecardpreattack", "redcardpreattack",
 	"katarinartrigger", "hungeringstrike","goldcardpreattack",
-	"jaycethunderingblow", "renektonsuperexecute", "veigarprimordialburst",
+	"jaycethunderingblow", "renektonsuperexecute", "veigarprimordialBurst",
 	"twitcheparticle", "rengarpassivebuffdashaadummy", "volibearw",
 	"hecarimrampattack", "illaoiwattack", "jaxempowertwo",
 	"rengarpassivebuffdash", "ireliaequilibriumstrike", "braumbasicattackpassiveoverride", "gnarwproc",
@@ -103,8 +99,139 @@ static std::vector<std::string> dodgeSpell =
 	"poppypassiveattack", "viktorqbuff", "fioraeattack",
 	"teemoq", "caitlynaceinthehole", "headbutt", "khazixq", "khazixqlong",
 	"renektonpreexecute", "taloncutthroat", "fallenone",
-	"xenzhaothrust3", "elisespiderqcast", "feast", "olafrecklessstrike", "TOADDMORE"
+	"xenzhaothrust3", "elisespiderqcast", "feast", "olafrecklessstrike"
 };
+
+void InitMenu()
+{
+	MainMenu = GPluginSDK->AddMenu("TakoRiven");
+
+	ComboMenu = MainMenu->AddMenu("Riven:Combo");
+	{
+		ComboQ = ComboMenu->CheckBox("Combo Q Gapcloser", true);
+		ComboW = ComboMenu->CheckBox("Combo W", true);
+		ComboWLogic = ComboMenu->CheckBox("Combo W Cancel Animation", true);
+		ComboE = ComboMenu->CheckBox("Combo E", true);
+		ComboEGap = ComboMenu->CheckBox("Combo E Gapcloser", true);
+		ComboR1 = ComboMenu->CheckBox("Combo R1", true);
+		ComboR1Ex = ComboMenu->CheckBox("Combo R1 if target need R DMG to KS", true);
+		ComboR2 = ComboMenu->AddSelection("Combo R2 Mode", 0, { "Logic", "First Cast", "Only KillSteal", "Off" });
+		ComboItem = ComboMenu->CheckBox("Combo Item", true);
+		ComboDot = ComboMenu->CheckBox("Combo Ignite", true);
+	}
+
+	BurstMenu = MainMenu->AddMenu("Riven:Burst");
+	{
+		BurstFlash = BurstMenu->CheckBox("Burst Flash", true);
+		BurstDot = BurstMenu->CheckBox("Burst Ignite", true);
+		BurstMode = BurstMenu->AddSelection("Burst Mode", 0, { "Shy", "EQ Flash" });
+		BurstKey = BurstMenu->AddKey("Burst Key", 84);//84 = T Key
+	}
+
+	HarassMenu = MainMenu->AddMenu("Riven:Harass");
+	{
+		HarassQ = HarassMenu->CheckBox("Harass Q", true);
+		HarassW = HarassMenu->CheckBox("Harass W", true);
+		HarassE = HarassMenu->CheckBox("Harass E", true);
+		HarassMode = HarassMenu->AddSelection("Harass Mode", 0, { "Smart EQ return", "Normal" });
+	}
+
+	LaneClearMenu = MainMenu->AddMenu("Riven:LaneClear");
+	{
+		LaneClearQ = LaneClearMenu->CheckBox("LaneClear Q", true);
+		LaneClearQSmart = LaneClearMenu->CheckBox("LaneClear Q Smart Farm", true);
+		LaneClearQTurret = LaneClearMenu->CheckBox("LaneClear Q Reset Attack Turret", true);
+		LaneClearW = LaneClearMenu->CheckBox("LaneClear W", true);
+		LaneClearWCount = LaneClearMenu->AddFloat("LaneClear W Min Hit Count >= x", 1, 5, 3);
+		LaneClearItem = LaneClearMenu->CheckBox("LaneClear Item", true);
+	}
+
+	JungleClearMenu = MainMenu->AddMenu("Riven:JungleClear");
+	{
+		JungleClearQ = JungleClearMenu->CheckBox("JungleClear Q", true);
+		JungleClearW = JungleClearMenu->CheckBox("JungleClear W", true);
+		JungleClearE = JungleClearMenu->CheckBox("JungleClear E", true);
+		JungleClearItem = JungleClearMenu->CheckBox("JungleClear Item", true);
+	}
+
+	FleeMenu = MainMenu->AddMenu("Riven:Flee");
+	{
+		FleeQ = FleeMenu->CheckBox("Flee Q", true);
+		FleeW = FleeMenu->CheckBox("Flee W", true);
+		FleeE = FleeMenu->CheckBox("Flee E", true);
+		FleeKey = FleeMenu->AddKey("Flee Key", 90); //90 = Z key
+	}
+
+	KillStealMenu = MainMenu->AddMenu("Riven:KillSteal");
+	{
+		KillStealW = KillStealMenu->CheckBox("KillSteal W", true);
+		KillStealR = KillStealMenu->CheckBox("KillSteal R2", true);
+	}
+
+	MiscMenu = MainMenu->AddMenu("Riven:Misc");
+	{
+		KeepQ = MiscMenu->CheckBox("Keep Q Alive", true);
+		QMode = MiscMenu->AddSelection("Q Mode", 0, { "To target", "To mouse" });
+		AntiGap = MiscMenu->CheckBox("Use W Anti Gapcloser", true);
+		Interr = MiscMenu->CheckBox("Use W Interrupt Danger Spell", true);
+		EShield = MiscMenu->CheckBox("Use E Shield Some Spell", true);
+		ManualCancel = MiscMenu->CheckBox("Manual Cancel Animation", true);
+		CalculatePing = MiscMenu->CheckBox("Cancel Animation Calculate Ping", true);
+	}
+
+	DrawMenu = MainMenu->AddMenu("Riven:Drawings");
+	{
+		DrawW = DrawMenu->CheckBox("Draw W Range", false);
+		DrawR = DrawMenu->CheckBox("Draw R2 Range", false);
+		DrawDMG = DrawMenu->CheckBox("Draw Spell Damage", true);
+	}
+}
+
+void InitSpell()
+{
+	Q = GPluginSDK->CreateSpell2(kSlotQ, kCircleCast, false, true, kCollidesWithNothing);
+	Q->SetSkillshot(0.25, 100, 2200, 325);
+
+	W = GPluginSDK->CreateSpell(kSlotW, 260);
+
+	E = GPluginSDK->CreateSpell2(kSlotE, kLineCast, false, true, kCollidesWithNothing);
+	E->SetOverrideRange(325);
+
+	R = GPluginSDK->CreateSpell(kSlotR);
+
+	R2 = GPluginSDK->CreateSpell2(kSlotR, kConeCast, false, true, kCollidesWithYasuoWall);
+	R2->SetSkillshot(0.25, 45, 1600, 900);
+
+	if (GEntityList->Player()->GetSpellSlot("SummonerFlash") != kSlotUnknown)
+	{
+		Flash = GPluginSDK->CreateSpell(GEntityList->Player()->GetSpellSlot("SummonerFlash"), 425);
+	}
+
+	if (GEntityList->Player()->GetSpellSlot("SummonerDot") != kSlotUnknown)
+	{
+		Ignite = GPluginSDK->CreateSpell(GEntityList->Player()->GetSpellSlot("SummonerDot"), 600);
+	}
+
+	Youmuu = GPluginSDK->CreateItemForId(3142, 0);
+	Tiamat = GPluginSDK->CreateItemForId(3077, 400);
+	Titanic = GPluginSDK->CreateItemForId(3748, 400);
+	Ravenous = GPluginSDK->CreateItemForId(3074, 400);
+}
+
+inline static float GetWRange()
+{
+	if (GEntityList->Player()->GetSpellLevel(1) == 0)
+	{
+		return 0;
+	}
+
+	if (GEntityList->Player()->HasBuff("RivenFengShuiEngine"))
+	{
+		return 330;
+	}
+
+	return 260;
+}
 
 inline static bool haveFlash()
 {
@@ -288,7 +415,7 @@ inline static void CastQ(IUnit* target)
 		return;
 	}
 
-	if (qMode->GetInteger() == 0)
+	if (QMode->GetInteger() == 0)
 	{
 		if (!target->IsDead())
 			Q->CastOnPosition(target->GetPosition());
@@ -305,12 +432,12 @@ inline static void R1Logic(IUnit* target)
 	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(GEntityList->Player()))
 		return;
 
-	if (!target->IsValidTarget(GEntityList->Player(), 500.0f) || isRActive() || !comboR1->Enabled())
+	if (!target->IsValidTarget(GEntityList->Player(), 500.0f) || isRActive() || !ComboR1->Enabled())
 	{
 		return;
 	}
 
-	if (comboR1Ex->Enabled())
+	if (ComboR1Ex->Enabled())
 	{
 		if (target->GetHealth() <= (GetComboDMG(target, false) + GDamage->GetAutoAttackDamage(GEntityList->Player(), target, true)))
 		{
@@ -330,7 +457,7 @@ inline static void R2Logic(IUnit* target)
 	if (!target->IsValidTarget(GEntityList->Player(), R2->Range()) || !isRActive())
 		return;
 
-	switch (comboR2->GetInteger())
+	switch (ComboR2->GetInteger())
 	{
 	case 0:
 		if (target->HealthPercent() < 20 ||
@@ -390,132 +517,5 @@ inline static void R2Logic(IUnit* target)
 			}
 		}
 		break;
-	}
-}
-
-inline static void InitSpells()
-{
-	Q = GPluginSDK->CreateSpell2(kSlotQ, kCircleCast, false, true, kCollidesWithNothing);
-	Q->SetSkillshot(0.25, 100, 2200, 325);
-
-	W = GPluginSDK->CreateSpell(kSlotW, 260);
-
-	E = GPluginSDK->CreateSpell2(kSlotE, kLineCast, false, true, kCollidesWithNothing);
-	E->SetOverrideRange(312);
-
-	R = GPluginSDK->CreateSpell(kSlotR);
-
-	R2 = GPluginSDK->CreateSpell2(kSlotR, kConeCast, false, true, kCollidesWithYasuoWall);
-	R2->SetSkillshot(0.25, 45, 1600, 900);
-
-	if (GEntityList->Player()->GetSpellSlot("SummonerFlash") != kSlotUnknown)
-	{
-		Flash = GPluginSDK->CreateSpell(GEntityList->Player()->GetSpellSlot("SummonerFlash"), 425);
-	}
-
-	if (GEntityList->Player()->GetSpellSlot("SummonerDot") != kSlotUnknown)
-	{
-		Ignite = GPluginSDK->CreateSpell(GEntityList->Player()->GetSpellSlot("SummonerDot"), 600);
-	}
-
-	Youmuu = GPluginSDK->CreateItemForId(3142, 0);
-	Tiamat = GPluginSDK->CreateItemForId(3077, 400);
-	Titanic = GPluginSDK->CreateItemForId(3748, 400);
-	Ravenous = GPluginSDK->CreateItemForId(3074, 400);
-}
-
-inline static void InitMenu()
-{
-	mainMenu = GPluginSDK->AddMenu("TakoRiven Plus");
-
-	comboMenu = mainMenu->AddMenu("Combo Settings");
-	{
-		comboQ = comboMenu->CheckBox("Use Q Gapcloser", true);
-		comboW = comboMenu->CheckBox("Use W", true);
-		comboWLogic = comboMenu->CheckBox("Use W Cancel Animation", true);
-		comboE = comboMenu->CheckBox("Use E", true);
-		comboEGap = comboMenu->CheckBox("Use E Gapcloser", true);
-		comboR1 = comboMenu->CheckBox("Use R1", true);
-		comboR1Ex = comboMenu->CheckBox("Use R1 (if target need R DMG to KS)", true);
-		comboR2 = comboMenu->AddSelection("Use R2 Mode: ", 0, { "Logic", "First Cast", "Only KillSteal", "Off" });
-		comboItem = comboMenu->CheckBox("Use Item", true);
-		comboDot = comboMenu->CheckBox("Use Ignite", true);
-	}
-
-	burstMenu = mainMenu->AddMenu("Burst Settings");
-	{
-		burstFlash = burstMenu->CheckBox("Use Flash", true);
-		burstDot = burstMenu->CheckBox("Use Ignite", true);
-		burstMode = burstMenu->AddSelection("Burst Mode: ", 0, { "Shy", "EQ Flash" });
-		burstKey = burstMenu->AddKey("Burst Key", 84);//84 = T Key
-		auto burst1 = burstMenu->CheckBox("You need to left click target", false);
-		auto burst2 = burstMenu->CheckBox("then press burst key", false);
-	}
-
-	harassMenu = mainMenu->AddMenu("Harass Settings");
-	{
-		harassQ = harassMenu->CheckBox("Use Q", true);
-		harassW = harassMenu->CheckBox("Use W", true);
-		harassE = harassMenu->CheckBox("Use E", true);
-		harassMode = harassMenu->AddSelection("Harass Mode: ", 0, { "Smart(EQ return)", "Normal" });
-	}
-
-	laneclearMenu = mainMenu->AddMenu("LaneClear Settings");
-	{
-		laneclearQ = laneclearMenu->CheckBox("Use Q", true);
-		laneclearQSmart = laneclearMenu->CheckBox("Use Q (Smart Farm)", true);
-		laneclearQTurret = laneclearMenu->CheckBox("Use Q Reset Attack Turret", true);
-		laneclearW = laneclearMenu->CheckBox("Use W", true);
-		laneclearWCount = laneclearMenu->AddFloat("Use W Min Hit Count >= x", 1, 5, 3);
-		laneclearItem = laneclearMenu->CheckBox("Use Item", true);
-	}
-
-	jungleClearMenu = mainMenu->AddMenu("JungleClear Settings");
-	{
-		jungleClearQ = jungleClearMenu->CheckBox("Use Q", true);
-		jungleClearW = jungleClearMenu->CheckBox("Use W", true);
-		jungleClearE = jungleClearMenu->CheckBox("Use E", true);
-		jungleClearItem = jungleClearMenu->CheckBox("Use Item", true);
-	}
-
-	fleeMenu = mainMenu->AddMenu("Flee Settings");
-	{
-		fleeQ = fleeMenu->CheckBox("Use Q", true);
-		fleeW = fleeMenu->CheckBox("Use W", true);
-		fleeE = fleeMenu->CheckBox("Use E", true);
-		fleeKey = fleeMenu->AddKey("Flee Key", 90); //90 = Z key
-	}
-
-	killStealMenu = mainMenu->AddMenu("KillSteal Settings");
-	{
-		killStealW = killStealMenu->CheckBox("Use W", true);
-		killStealR = killStealMenu->CheckBox("Use R2", true);
-
-		for (auto target : GEntityList->GetAllHeros(false, true))
-		{
-			if (target != nullptr)
-			{
-				std::string szMenuName = "R2 KS: " + std::string(target->ChampionName());
-				killStealList[target->GetNetworkId()] = killStealMenu->CheckBox(szMenuName.c_str(), true);
-			}
-		}
-	}
-
-	miscMenu = mainMenu->AddMenu("Misc Settings");
-	{
-		keepQ = miscMenu->CheckBox("Keep Q Alive", true);
-		qMode = miscMenu->AddSelection("Q Mode: ", 0, { "To target", "To mouse" });
-		antiGap = miscMenu->CheckBox("Use W Anti Gapcloser", true);
-		interr = miscMenu->CheckBox("Use W Interrupt Danger Spell", true);
-		eShield = miscMenu->CheckBox("Use E Shield Some Spell", true);
-		manualCancel = miscMenu->CheckBox("Manual Cancel Animation", true);
-		calculatePing = miscMenu->CheckBox("Cancel Animation Calculate Ping", true);
-	}
-
-	drawMenu = mainMenu->AddMenu("Drawings Settings");
-	{
-		drawW = drawMenu->CheckBox("Draw W Range", false);
-		drawR = drawMenu->CheckBox("Draw R2 Range", false);
-		drawDMG = drawMenu->CheckBox("Draw Spell Damage", true);
 	}
 }

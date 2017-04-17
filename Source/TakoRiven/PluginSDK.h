@@ -1072,7 +1072,7 @@ public:
 	/// <summary>
 	/// Adds a key selection drop down box control.
 	/// Return->GetInteger() to see key value as defined by a virtual key code.
-	/// List of virtual key codes: http://cherrytree.at/misc/vk.htm
+	/// List of virtual key codes: http://cherrytree.at/Misc/vk.htm
 	/// </summary>
 	/// <param name="Name">The name.</param>
 	/// <param name="DefaultKey">The default key.</param>

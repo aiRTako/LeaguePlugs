@@ -12,22 +12,19 @@
 #include "Flee.h"
 #include "KillSteal.h"
 
+#include <string>
+
 PLUGIN_EVENT(void) OnUpdate()
 {
-	if (GEntityList->Player()->GetSpellBook()->GetLevel(kSlotW) > 0)
-	{
-		W->SetSpellRange(Me->HasBuff("RivenFengShuiEngine") ? 330.0f : 260.0f);
-	}
-
-	if (qStack != 0 && GGame->CurrentTick() - lastQTime > 3800)
-	{
-		qStack = 0;
-	}
-
 	if (Me->IsDead())
 	{
 		qStack = 0;
 		return;
+	}
+
+	if (qStack != 0 && GGame->TickCount() - lastQTime > 3800)
+	{
+		qStack = 0;
 	}
 
 	if (Me->IsRecalling())
@@ -35,7 +32,7 @@ PLUGIN_EVENT(void) OnUpdate()
 		return;
 	}
 
-	if (keepQ->Enabled() && Me->HasBuff("RivenTriCleave"))
+	if (KeepQ->Enabled() && Me->HasBuff("RivenTriCleave"))
 	{
 		if (GBuffData->GetEndTime(Me->GetBuffDataByName("RivenTriCleave")) - GGame->Time() < 0.3)
 		{
@@ -51,7 +48,7 @@ PLUGIN_EVENT(void) OnUpdate()
 		ComboOnUpdate();
 	}
 
-	if (GetAsyncKeyState(burstKey->GetInteger()))
+	if (GetAsyncKeyState(BurstKey->GetInteger()))
 	{
 		BurstOnUpdate();
 	}
@@ -67,7 +64,7 @@ PLUGIN_EVENT(void) OnUpdate()
 		JungleClearOnUpdate();
 	}
 
-	if (GetAsyncKeyState(fleeKey->GetInteger()))
+	if (GetAsyncKeyState(FleeKey->GetInteger()))
 	{
 		FleeOnUpdate();
 	}

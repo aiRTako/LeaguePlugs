@@ -78,14 +78,14 @@ struct NavigationPath
 };
 
 /// <summary>
-/// Structure containing interruptible information used for OnInterruptible event.
+/// Structure containing Interruptible information used for OnInterruptible event.
 /// </summary>
 struct InterruptibleSpell
 {
-	IUnit*					Source;				// Unit that casted an interruptible spell
+	IUnit*					Source;				// Unit that casted an Interruptible spell
 	eInterruptibleDanger	DangerLevel;		// Danger level of this spell as defined by the core
 	float					EndTime;			// Time at which this spell will end
-	bool					MovementInterupts;	// True if moving will interrupt the spell (e.g Katarina R)
+	bool					MovementInterupts;	// True if moving will Interrupt the spell (e.g Katarina R)
 	void*					Data;				// Data to be passed to GPluginSpellData for extended information
 };
 
@@ -126,7 +126,7 @@ struct CastedSpell
 	IUnit*	Target_;		// Target unit or nullptr if it's not a targeted spell
 	bool	AutoAttack_;	// True for AA spells
 	char	Name_[64];		// Name of the spell
-	float	Windup_;		// Windup time (e.g delay before the missile is actually sent, movement can possibly interrupt the cast during this time)
+	float	Windup_;		// Windup time (e.g delay before the missile is actually sent, movement can possibly Interrupt the cast during this time)
 	float	Animation_;		// Animation time
 	Vec3	Position_;		// Position this cast was sent from
 	void*	Data_;			// Data to be passed to GPluginSpellData for extended information

@@ -13,16 +13,16 @@ inline static void HarassOnUpdate()
 		return;
 	}
 
-	if (harassMode->GetInteger() == 0)
+	if (HarassMode->GetInteger() == 0)
 	{
-		if (E->IsReady() && harassE->Enabled() && qStack == 2)
+		if (E->IsReady() && HarassE->Enabled() && qStack == 2)
 		{
 			auto pos = Me->GetPosition() + (Me->GetPosition() - target->GetPosition()).VectorNormalize() * E->Range();
 
 			E->CastOnPosition(Me->GetPosition().Extend(pos, E->Range()));
 		}
 
-		if (Q->IsReady() && harassQ->Enabled() && qStack == 2)
+		if (Q->IsReady() && HarassQ->Enabled() && qStack == 2)
 		{
 			GPluginSDK->DelayFunctionCall(100, []()
 			{
@@ -38,12 +38,12 @@ inline static void HarassOnUpdate()
 			});
 		}
 
-		if (W->IsReady() && harassW->Enabled() && !target->IsDead() && target->IsValidTarget(Me, W->GetSpellRange()) && qStack == 1)
+		if (W->IsReady() && HarassW->Enabled() && !target->IsDead() && target->IsValidTarget(Me, GetWRange()) && qStack == 1)
 		{
 			W->CastOnPlayer();
 		}
 
-		if (Q->IsReady() && harassQ->Enabled() && !target->IsDead())
+		if (Q->IsReady() && HarassQ->Enabled() && !target->IsDead())
 		{
 			if (qStack == 0)
 			{
@@ -51,7 +51,7 @@ inline static void HarassOnUpdate()
 				GOrbwalking->SetOverrideTarget(target);
 			}
 
-			if (qStack == 1 && GGame->CurrentTick() - lastQTime > 600)
+			if (qStack == 1 && GGame->TickCount() - lastQTime > 600)
 			{
 				CastQ(target);
 				GOrbwalking->SetOverrideTarget(target);
@@ -60,20 +60,20 @@ inline static void HarassOnUpdate()
 	}
 	else
 	{
-		if (E->IsReady() && harassE->Enabled() && !target->IsDead() &&
+		if (E->IsReady() && HarassE->Enabled() && !target->IsDead() &&
 			DistanceToPlayer(target) <= E->Range() + (Q->IsReady() ? Q->Range() : Me->AttackRange()))
 		{
 			E->CastOnPosition(target->GetPosition());
 		}
 
-		if (Q->IsReady() && harassQ->Enabled() && !target->IsDead() && target->IsValidTarget(Me, Q->Range()) && qStack == 0 &&
-			GGame->CurrentTick() - lastQTime > 500)
+		if (Q->IsReady() && HarassQ->Enabled() && !target->IsDead() && target->IsValidTarget(Me, Q->Range()) && qStack == 0 &&
+			GGame->TickCount() - lastQTime > 500)
 		{
 			CastQ(target);
 			GOrbwalking->SetOverrideTarget(target);
 		}
 
-		if (W->IsReady() && harassW->Enabled() && !target->IsDead() && target->IsValidTarget(Me, W->GetSpellRange()) && (!Q->IsReady() || qStack == 1))
+		if (W->IsReady() && HarassW->Enabled() && !target->IsDead() && target->IsValidTarget(Me, GetWRange()) && (!Q->IsReady() || qStack == 1))
 		{
 			W->CastOnPlayer();
 		}
@@ -85,9 +85,9 @@ inline static void AfterHarass(IUnit* target)
 	if (target == nullptr || target->IsDead() || !target->IsHero() || !target->IsEnemy(Me))
 		return;
 
-	if (harassQ->Enabled() && Q->IsReady())
+	if (HarassQ->Enabled() && Q->IsReady())
 	{
-		if (harassMode->GetInteger() == 0)
+		if (HarassMode->GetInteger() == 0)
 		{
 			if (qStack == 1)
 			{

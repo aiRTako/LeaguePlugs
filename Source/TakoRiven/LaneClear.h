@@ -6,7 +6,7 @@
 
 inline static void LaneClearOnUpdate()
 {
-	if (laneclearQ->Enabled() && laneclearQSmart->Enabled() && Q->IsReady())
+	if (LaneClearQ->Enabled() && LaneClearQSmart->Enabled() && Q->IsReady())
 	{
 		Vec3 pos;
 		int count;
@@ -14,7 +14,7 @@ inline static void LaneClearOnUpdate()
 
 		if (count >= 2)
 		{
-			if (GGame->CurrentTick() - lastQTime > 1200)
+			if (GGame->TickCount() - lastQTime > 1200)
 			{
 				Q->CastOnPosition(pos);
 				return;
@@ -22,9 +22,9 @@ inline static void LaneClearOnUpdate()
 		}
 	}
 
-	if (laneclearW->Enabled() && W->IsReady())
+	if (LaneClearW->Enabled() && W->IsReady())
 	{
-		if (GetMinionsCount(Me, W->GetSpellRange()) >= laneclearWCount->GetFloat())
+		if (GetMinionsCount(Me, GetWRange()) >= LaneClearWCount->GetFloat())
 		{
 			W->CastOnPlayer();
 		}
@@ -38,18 +38,18 @@ inline static void AfterLaneClear(IUnit* tar)
 		return;
 	}
 
-	if (laneclearQTurret->Enabled() && tar->IsTurret() && GetEnemiesCount(Me, 800.0f) == 0)
+	if (LaneClearQTurret->Enabled() && tar->IsTurret() && GetEnemiesCount(Me, 800.0f) == 0)
 	{
 		Q->CastOnPosition(Me->GetPosition().Extend(tar->GetPosition(), Q->Range()));
 	}
 	else
 	{
-		if (laneclearItem->Enabled() && GetMinionsCount(Me, 400.0f) >= 2)
+		if (LaneClearItem->Enabled() && GetMinionsCount(Me, 400.0f) >= 2)
 		{
 			UseItem(false);
 		}
 
-		if (laneclearQ->Enabled() && Q->IsReady() && GetMinionsCount(Me, 400.0f) >= 2)
+		if (LaneClearQ->Enabled() && Q->IsReady() && GetMinionsCount(Me, 400.0f) >= 2)
 		{
 			Vec3 pos;
 			int count;

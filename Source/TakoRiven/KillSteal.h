@@ -6,11 +6,11 @@
 
 inline static void KillStealOnUpdate()
 {
-	if (killStealW->Enabled() && W->IsReady())
+	if (KillStealW->Enabled() && W->IsReady())
 	{
 		for (auto target : GEntityList->GetAllHeros(false, true))
 		{
-			if (target == nullptr || target->IsDead() || !target->IsValidTarget(Me, W->GetSpellRange()) || target->IsInvulnerable() || IsUnKillable(target))
+			if (target == nullptr || target->IsDead() || !target->IsValidTarget(Me, GetWRange()) || target->IsInvulnerable() || IsUnKillable(target))
 			{
 				return;
 			}
@@ -25,7 +25,7 @@ inline static void KillStealOnUpdate()
 		}
 	}
 
-	if (killStealR->Enabled() && R2->IsReady() && isRActive())
+	if (KillStealR->Enabled() && R2->IsReady() && isRActive())
 	{
 		for (auto target : GEntityList->GetAllHeros(false, true))
 		{
@@ -36,7 +36,7 @@ inline static void KillStealOnUpdate()
 
 			auto DMG = GDamage->GetSpellDamage(Me, target, kSlotR);
 
-			if (!target->IsDead() && DMG > target->GetHealth() && killStealList[target->GetNetworkId()]->Enabled())
+			if (!target->IsDead() && DMG > target->GetHealth())
 			{
 				AdvPredictionOutput pred;
 				R2->RunPrediction(target, true, kCollidesWithYasuoWall, &pred);

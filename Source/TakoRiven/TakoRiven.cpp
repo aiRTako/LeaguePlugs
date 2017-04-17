@@ -17,10 +17,10 @@ PLUGIN_API void OnLoad(IPluginSDK* PluginSDK)
 {
 	PluginSDKSetup(PluginSDK);
 
-	Me = GEntityList->Player();
-
-	InitSpells();
 	InitMenu();
+	InitSpell();
+
+	Me = GEntityList->Player();
 
 	GEventManager->AddEventHandler(kEventOnPlayAnimation, OnPlayAnimation);
 	GEventManager->AddEventHandler(kEventOnGameUpdate, OnUpdate);
@@ -34,7 +34,7 @@ PLUGIN_API void OnLoad(IPluginSDK* PluginSDK)
 
 PLUGIN_API void OnUnload()
 {
-	mainMenu->Remove();
+	MainMenu->Remove();
 
 	GEventManager->RemoveEventHandler(kEventOnPlayAnimation, OnPlayAnimation);
 	GEventManager->RemoveEventHandler(kEventOnGameUpdate, OnUpdate);

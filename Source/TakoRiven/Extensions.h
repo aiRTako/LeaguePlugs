@@ -42,7 +42,7 @@ const char* cpc = pc;
 
 #pragma region Status
 
-inline static bool HaveShield(IUnit* target)
+inline static bool HavEShield(IUnit* target)
 {
 	if (target == nullptr || target->IsDead())
 	{
